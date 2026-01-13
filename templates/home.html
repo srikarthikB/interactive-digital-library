@@ -4,26 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Digital Library</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
 
 </head>
-<body>
-    <h1>Interactive Digital Library</h1>
-    
+<body class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-8">
+    <div class="max-w-7xl mx-auto">
+    <h1 class="text-5xl font-extrabold tracking-tight mb-4">
+    Interactive Digital Library
+    </h1>
+
+    <p class="max-w-xl text-white/80 mb-10">
+    An AI-assisted digital reading experience that enhances engagement through
+    visual and audio summaries.
+    </p>
+
     <p>
     <a href="/about">About Project</a>
     </p>
 
+    <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8">
     <input 
         type="text" 
         id="searchInput"
-        placeholder="Search books..." 
-    >
+        placeholder="Search books..."
+        class="w-full max-w-md px-4 py-3 rounded-xl
+                bg-white/20 backdrop-blur-md
+                text-white placeholder-white/70 outline-none mb-8"
+    />
+    </div>
+
     <h2>Explore the Library</h2>
 
-    <div class="books-container">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
         {% for book in books %}
-            <div class="book-card" data-title="{{ book.title | lower }}">
+            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-4
+            hover:-translate-y-2 hover:shadow-2xl
+            transition-all duration-300 text-center">
                 <a href="/book/{{ book.id }}">
                     <img 
                     src="{{ url_for('static', filename='images/covers/' + book.cover) }}" 
@@ -31,12 +50,13 @@
                     width="150"
                     >
                 </a>
-                <p><strong>{{ book.title }}</strong></p>
+                <p class="mt-4 font-semibold">{{ book.title }}</p>
             </div>
 
         {% endfor %}
     </div>
 
     <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+    </div>
 </body>
 </html>
