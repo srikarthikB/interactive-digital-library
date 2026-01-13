@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ book.title }} – Visual Summary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<h1>{{ book.title }} – AI Visual Summary</h1>
+
+<p>
+These AI-generated visuals represent key scenes from the book and are intended
+as pre-reading aids to enhance understanding and engagement.
+</p>
+
+<div class="visuals-container">
+    <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene1.jpg') }}">
+    <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene2.jpg') }}">
+    <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene3.jpg') }}">
+</div>
+
+<br>
+<a href="/book/{{ book.id }}">← Back to Book</a>
+
+</body>
+</html>

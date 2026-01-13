@@ -4,14 +4,16 @@
   "title": "Mahabharata (Vol 1 of 7)",
   "cover": "mahabharata.jpg",
   "description": "An English translation of the Mahabharata by M.N. Dutt.",
-  "archive_link": "https://archive.org/stream/mahabharata-mn-dutt-vol-6-of-7"
+  "archive_link": "https://archive.org/stream/mahabharata-mn-dutt-vol-6-of-7",
+  "slug": "mahabharata"
  },
   {
   "id": 2,
   "title": "Ramayana",
   "cover": "ramayana.jpg",
   "description": "The Ramayana translated by Hari Prasad Shastri (1952).",
-  "archive_link": "https://archive.org/stream/ssvm_ramayana-of-valmiki-translated-by-hari-prasad-shastri-english-1952"
+  "archive_link": "https://archive.org/stream/ssvm_ramayana-of-valmiki-translated-by-hari-prasad-shastri-english-1952",
+  "slug": "ramayana"
  },
 
   {
@@ -19,6 +21,7 @@
     "title": "Harry Potter",
     "cover": "harry_potter.jpg",
     "description": "A fantasy novel about a young wizard.",
-    "archive_link": ""
+    "archive_link": "",
+    "slug": "harry-potter"
   }
 ]

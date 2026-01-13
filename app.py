@@ -25,5 +25,15 @@ def book_detail(book_id):
 def about():
     return render_template("about.html")
 
+@app.route("/book/<int:book_id>/visuals")
+def book_visuals(book_id):
+    books = load_books()
+    book = next((b for b in books if b["id"] == book_id), None)
+
+    if not book:
+        return "Book not found", 404
+
+    return render_template("visuals.html", book=book)
+
 if __name__ == "__main__":
     app.run(debug=True) 

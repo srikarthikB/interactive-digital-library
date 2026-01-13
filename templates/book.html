@@ -10,9 +10,16 @@
     <p>{{ book.description }}</p>
 
     {% if book.archive_link %}
-        <a href="{{ book.archive_link }}" target="_blank">
-            <button>Read Book</button>
-        </a>
+        <p>
+            <a href="{{ book.archive_link }}" target="_blank" class="btn">
+                Read Book
+            </a>
+        </p>
+        <p>
+            <a href="/book/{{ book.id }}/visuals">
+                View AI Visual Summary
+            </a>
+        </p>
     {% else %}
         <p><em>Full book available via official sources only.</em></p>
     {% endif %}
