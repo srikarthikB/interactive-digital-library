@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Digital Library</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    <h1>Interactive Digital Library</h1>
+    
+    <p>
+    <a href="/about">About Project</a>
+    </p>
+
+    <input 
+        type="text" 
+        id="searchInput"
+        placeholder="Search books..." 
+    >
+    <h2>Explore the Library</h2>
+
+    <div class="books-container">
+        {% for book in books %}
+            <div class="book-card" data-title="{{ book.title | lower }}">
+                <a href="/book/{{ book.id }}">
+                    <img 
+                    src="{{ url_for('static', filename='images/covers/' + book.cover) }}" 
+                    alt="{{ book.title }}" 
+                    width="150"
+                    >
+                </a>
+                <p><strong>{{ book.title }}</strong></p>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+</body>
+</html>
