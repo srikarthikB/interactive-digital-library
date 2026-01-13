@@ -14,9 +14,20 @@ as pre-reading aids to enhance understanding and engagement.
 </p>
 
 <div class="visuals-container">
-    <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene1.jpg') }}">
-    <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene2.jpg') }}">
-    <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene3.jpg') }}">
+    <div class="visual-card">
+        <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene1.jpg') }}">
+        <p class="caption">AI-generated visualization of a key scene from the story.</p>
+    </div>
+
+    <div class="visual-card">
+        <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene2.jpg') }}">
+        <p class="caption">Representation of major characters and their moral conflict.</p>
+    </div>
+
+    <div class="visual-card">
+        <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene3.jpg') }}">
+        <p class="caption">Depiction of a pivotal moment influencing the narrative.</p>
+    </div>
 </div>
 
 <br>

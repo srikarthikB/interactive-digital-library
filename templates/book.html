@@ -9,6 +9,18 @@
 
     <p>{{ book.description }}</p>
 
+    <h3>AI Audio Notes</h3>
+
+        <p>
+        Short AI-generated audio summary to help understand key themes and scenes
+        before reading the full book.
+        </p>
+
+        <audio controls>
+            <source src="{{ url_for('static', filename='audio/' + book.slug + '.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
     {% if book.archive_link %}
         <p>
             <a href="{{ book.archive_link }}" target="_blank" class="btn">

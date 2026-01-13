@@ -93,3 +93,19 @@ h2 {
 .btn:hover {
     background-color: #1e40af;
 }
+
+audio {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.visual-card {
+    text-align: center;
+}
+
+.caption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+}
