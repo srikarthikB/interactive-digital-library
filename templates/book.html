@@ -1,19 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>{{ book.title }}</title>
 
-    <!-- Tailwind -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Serif font for library feel -->
+    <style>
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white p-8">
+<body class="min-h-screen bg-gradient-to-br
+             from-[#5D4037] via-[#EFEBE9] to-[#5D4037]
+             p-8">
 
-<div class="max-w-3xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl p-8">
+<div class="max-w-3xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-8
+            text-[#3E2723] shadow-2xl">
 
+    <!-- TITLE -->
     <h1 class="text-3xl font-bold mb-4">{{ book.title }}</h1>
 
-    <p class="text-white/80 mb-6">
+    <!-- DESCRIPTION -->
+    <p class="text-[#4E342E] mb-6 leading-relaxed">
         {{ book.description }}
     </p>
 
@@ -22,31 +34,31 @@
         <h3 class="text-xl font-semibold mb-2">AI Summary</h3>
 
         <!-- Short summary -->
-        <p class="text-white/80 leading-relaxed">
+        <p class="text-[#4E342E] leading-relaxed">
             {{ summary.short }}
         </p>
 
         <!-- Read more -->
         <button
             onclick="document.getElementById('full-summary').classList.toggle('hidden')"
-            class="mt-2 text-sm text-purple-300 hover:text-purple-200"
+            class="mt-2 text-sm text-[#6D4C41] hover:text-[#3E2723]"
         >
             Read full AI summary
         </button>
 
         <!-- Full summary (hidden by default) -->
         <div id="full-summary" class="hidden mt-4">
-            <p class="text-white/70 leading-relaxed whitespace-pre-line">
+            <p class="text-[#4E342E] leading-relaxed whitespace-pre-line">
                 {{ summary.full }}
             </p>
         </div>
     </div>
 
-    <!-- AUDIO (ONLY ONE BUTTON, HIDDEN PLAYER) -->
+    <!-- AUDIO -->
     <div class="mt-6">
         <button
             onclick="document.getElementById('audio-player').classList.toggle('hidden')"
-            class="flex items-center gap-2 text-sm text-white/80 hover:text-white"
+            class="flex items-center gap-2 text-sm text-[#6D4C41] hover:text-[#3E2723]"
         >
             🔊 Listen to audio version
         </button>
@@ -58,13 +70,15 @@
         </div>
     </div>
 
-    <!-- ACTION LINKS -->
-    <div class="mt-8 flex gap-4">
+    <!-- ACTION BUTTONS -->
+    <div class="mt-8 flex flex-wrap gap-4">
+
         {% if book.archive_link %}
             <a
               href="{{ book.archive_link }}"
               target="_blank"
-              class="px-5 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 font-semibold hover:scale-105 transition"
+              class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
+                     font-semibold hover:bg-[#5D4037] transition"
             >
               Read Book
             </a>
@@ -72,13 +86,15 @@
 
         <a
           href="/book/{{ book.id }}/visuals"
-          class="px-5 py-3 rounded-xl bg-white/20 backdrop-blur-md hover:bg-white/30 transition"
+          class="px-6 py-3 rounded-xl bg-[#D7CCC8] text-[#3E2723]
+                 hover:bg-[#BCAAA4] transition font-semibold"
         >
           View AI Visual Summary
         </a>
     </div>
 
-    <a href="/" class="block mt-8 text-white/70 hover:text-white">
+    <!-- BACK -->
+    <a href="/" class="block mt-8 text-[#6D4C41] hover:text-[#3E2723]">
         ← Back to Home
     </a>
 

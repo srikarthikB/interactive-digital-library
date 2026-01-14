@@ -12,7 +12,7 @@
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-8">
+<body class="min-h-screen bg-[#2B1B12] text-[#FAF7F2] p-8">
 
     <!-- PAGE CONTAINER -->
     <div class="max-w-7xl mx-auto">
@@ -37,7 +37,8 @@
         </div>
 
         <!-- MAIN CONTENT CARD -->
-        <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
+        <div class="max-w-7xl mx-auto bg-gradient-to-b from-[#4E342E] to-[#3E2723]
+                    rounded-2xl p-10 shadow-2xl border border-[#5D4037]">
 
             <!-- SEARCH BAR -->
             <input
@@ -54,22 +55,26 @@
                 Explore the Library
             </h2>
 
+            <div class="h-3 bg-gradient-to-r from-[#6D4C41] via-[#5D4037] to-[#6D4C41]
+            rounded mb-10 shadow-inner"></div>
+
             <!-- BOOK GRID -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
                 {% for book in books %}
                     <div
-                        class="bg-white/20 backdrop-blur-lg rounded-2xl p-5
-                               flex flex-col items-center
-                               hover:-translate-y-2 hover:shadow-2xl
-                               transition-all duration-300"
+                        class="bg-[#FAF7F2] text-[#3E2723] rounded-lg p-4
+                                shadow-lg hover:shadow-2xl
+                                hover:-translate-y-1 transition-all duration-500
+                                flex flex-col items-center"
                         data-title="{{ book.title | lower }}"
                     >
                         <a href="/book/{{ book.id }}">
                             <img
                                 src="{{ url_for('static', filename='images/covers/' + book.cover) }}"
                                 alt="{{ book.title }}"
-                                class="w-32 h-48 object-cover rounded-lg"
+                                class="w-28 h-44 object-cover rounded-sm border border-[#5D4037]"
                             />
+
                         </a>
 
                         <p class="mt-4 text-sm font-semibold text-center">
