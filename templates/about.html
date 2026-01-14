@@ -1,50 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About – Interactive Digital Library</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-<h1>About This Project</h1>
+<body class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-8">
 
-<p>
-The Interactive Digital Library is a prototype web application designed to enhance the reading experience of long-form novels and epics.
-Many readers find traditional text-heavy books difficult to engage with, especially classical literature.
-</p>
+<div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl p-10">
 
-<h2>Problem Statement</h2>
-<p>
-Long novels often feel overwhelming due to their length, complex narratives, and lack of visual or auditory support.
-Existing digital libraries focus on preservation and access but do not actively help users engage with the content.
-</p>
+    <h1 class="text-4xl font-bold mb-6">About the Project</h1>
 
-<h2>Proposed Solution</h2>
-<p>
-This project introduces an AI-assisted reading platform that provides visual and audio aids to help readers better understand and engage with books.
-The system acts as an enhancement layer rather than a replacement for existing digital archives.
-</p>
+    <p class="text-white/80 leading-relaxed mb-4">
+        The Interactive Digital Library is a prototype designed to enhance digital reading
+        experiences by integrating AI-generated summaries, visual representations, and
+        optional audio narration.
+    </p>
 
-<h2>Role of Artificial Intelligence</h2>
-<p>
-AI-generated scene-based visuals and short audio summaries are used as pre-reading aids.
-These features help users visualize important moments and grasp key ideas before reading the full text.
-</p>
+    <div class="mt-6 mb-8 p-4 rounded-xl bg-red-500/20 border border-red-400">
+        <h3 class="text-lg font-semibold text-red-300 mb-2">
+            ⚠ Copyright & Fair Use Notice
+        </h3>
 
-<h2>Ethical and Legal Considerations</h2>
-<p>
-Full book content is not hosted directly on this platform.
-Instead, users are redirected to trusted public digital archives such as Archive.org.
-This ensures ethical usage and legal compliance while still improving accessibility and engagement.
-</p>
+        <p class="text-red-200 text-sm leading-relaxed">
+            This project does not host or distribute copyrighted books. All full texts are
+            accessed through external public platforms such as Archive.org. The AI-generated
+            summaries, visuals, and audio content provided here are intended solely as
+            educational pre-reading aids under fair use principles.
+        </p>
+    </div>
 
-<h2>Future Scope</h2>
-<p>
-Future enhancements may include real-time AI-generated visuals, chapter-wise audio explanations, and a fully integrated reading interface.
-</p>
 
-<br>
-<a href="/">← Back to Home</a>
+    <p class="text-white/80 leading-relaxed mb-4">
+        Instead of hosting copyrighted books directly, the platform ethically redirects
+        users to publicly accessible sources such as Archive.org, while offering AI-powered
+        pre-reading aids to improve comprehension and engagement.
+    </p>
+
+    <p class="text-white/80 leading-relaxed mb-6">
+        This project was developed as part of an academic Design Thinking & Innovation
+        assignment, focusing on accessibility, ethical content use, and user-centered design.
+    </p>
+
+    <h2 class="text-2xl font-semibold mb-3">Key Features</h2>
+
+    <ul class="list-disc list-inside text-white/80 space-y-2 mb-8">
+        <li>AI-generated text summaries for books</li>
+        <li>Optional audio narration using text-to-speech</li>
+        <li>AI-generated visual scene summaries</li>
+        <li>Searchable and responsive book library</li>
+        <li>Ethical redirection to external reading sources</li>
+    </ul>
+
+    <a href="/" class="inline-block text-white/70 hover:text-white">
+        ← Back to Home
+    </a>
+
+</div>
 
 </body>
 </html>

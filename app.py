@@ -39,6 +39,8 @@ def book_detail(book_id):
 def about():
     return render_template("about.html")
 
+import os
+
 @app.route("/book/<int:book_id>/visuals")
 def book_visuals(book_id):
     books = load_books()
@@ -47,7 +49,19 @@ def book_visuals(book_id):
     if not book:
         return "Book not found", 404
 
-    return render_template("visuals.html", book=book)
+    visuals_path = os.path.join("static", "images", "visuals", book["slug"])
+
+    if os.path.exists(visuals_path):
+        visuals = os.listdir(visuals_path)
+    else:
+        visuals = []
+
+    return render_template(
+        "visuals.html",
+        book=book,
+        visuals=visuals
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True) 

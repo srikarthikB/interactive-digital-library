@@ -1,37 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ book.title }} – Visual Summary</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Visual Summary</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-<h1>{{ book.title }} – AI Visual Summary</h1>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white p-8">
 
-<p>
-These AI-generated visuals represent key scenes from the book and are intended
-as pre-reading aids to enhance understanding and engagement.
-</p>
+<div class="max-w-6xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl p-10">
 
-<div class="visuals-container">
-    <div class="visual-card">
-        <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene1.jpg') }}">
-        <p class="caption">AI-generated visualization of a key scene from the story.</p>
+    <h1 class="text-3xl font-bold mb-4">
+        AI Visual Summary
+    </h1>
+
+    <p class="text-white/80 mb-8 max-w-3xl">
+        These AI-generated visuals represent key scenes and narrative moments from the book.
+        They are intended as visual aids to support understanding, not as replacements for
+        the original text.
+    </p>
+
+    <!-- VISUAL GRID -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+        {% for image in visuals %}
+            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-4">
+                <img
+                src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
+                alt="AI generated visual"
+                class="w-full h-64 object-cover rounded-lg mb-3"
+                />
+                <p class="text-sm text-white/70">
+                    AI-generated visualization of a significant narrative moment.
+                </p>
+            </div>
+        {% endfor %}
+
     </div>
 
-    <div class="visual-card">
-        <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene2.jpg') }}">
-        <p class="caption">Representation of major characters and their moral conflict.</p>
-    </div>
+    <a href="/book/{{ book.id }}" class="inline-block mt-10 text-white/70 hover:text-white">
+        ← Back to Book
+    </a>
 
-    <div class="visual-card">
-        <img src="{{ url_for('static', filename='images/visuals/' + book.slug + '/scene3.jpg') }}">
-        <p class="caption">Depiction of a pivotal moment influencing the narrative.</p>
-    </div>
 </div>
-
-<br>
-<a href="/book/{{ book.id }}">← Back to Book</a>
 
 </body>
 </html>
