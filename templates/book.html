@@ -2,42 +2,86 @@
 <html>
 <head>
     <title>{{ book.title }}</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-    <h1>{{ book.title }}</h1>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white p-8">
 
-    <p>{{ book.description }}</p>
+<div class="max-w-3xl mx-auto bg-white/10 backdrop-blur-xl rounded-3xl p-8">
 
-    <h3>AI Audio Notes</h3>
+    <h1 class="text-3xl font-bold mb-4">{{ book.title }}</h1>
 
-        <p>
-        Short AI-generated audio summary to help understand key themes and scenes
-        before reading the full book.
+    <p class="text-white/80 mb-6">
+        {{ book.description }}
+    </p>
+
+    <!-- AI SUMMARY -->
+    <div class="mt-6">
+        <h3 class="text-xl font-semibold mb-2">AI Summary</h3>
+
+        <!-- Short summary -->
+        <p class="text-white/80 leading-relaxed">
+            {{ summary.short }}
         </p>
 
-        <audio controls>
-            <source src="{{ url_for('static', filename='audio/' + book.slug + '.mp3') }}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+        <!-- Read more -->
+        <button
+            onclick="document.getElementById('full-summary').classList.toggle('hidden')"
+            class="mt-2 text-sm text-purple-300 hover:text-purple-200"
+        >
+            Read full AI summary
+        </button>
 
-    {% if book.archive_link %}
-        <p>
-            <a href="{{ book.archive_link }}" target="_blank" class="btn">
-                Read Book
+        <!-- Full summary (hidden by default) -->
+        <div id="full-summary" class="hidden mt-4">
+            <p class="text-white/70 leading-relaxed whitespace-pre-line">
+                {{ summary.full }}
+            </p>
+        </div>
+    </div>
+
+    <!-- AUDIO (ONLY ONE BUTTON, HIDDEN PLAYER) -->
+    <div class="mt-6">
+        <button
+            onclick="document.getElementById('audio-player').classList.toggle('hidden')"
+            class="flex items-center gap-2 text-sm text-white/80 hover:text-white"
+        >
+            🔊 Listen to audio version
+        </button>
+
+        <div id="audio-player" class="hidden mt-3">
+            <audio controls class="w-full">
+                <source src="{{ url_for('static', filename='audio/' + book.slug + '.mp3') }}" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <!-- ACTION LINKS -->
+    <div class="mt-8 flex gap-4">
+        {% if book.archive_link %}
+            <a
+              href="{{ book.archive_link }}"
+              target="_blank"
+              class="px-5 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 font-semibold hover:scale-105 transition"
+            >
+              Read Book
             </a>
-        </p>
-        <p>
-            <a href="/book/{{ book.id }}/visuals">
-                View AI Visual Summary
-            </a>
-        </p>
-    {% else %}
-        <p><em>Full book available via official sources only.</em></p>
-    {% endif %}
+        {% endif %}
 
-    <br><br>
-    <a href="/">← Back to Home</a>
+        <a
+          href="/book/{{ book.id }}/visuals"
+          class="px-5 py-3 rounded-xl bg-white/20 backdrop-blur-md hover:bg-white/30 transition"
+        >
+          View AI Visual Summary
+        </a>
+    </div>
 
+    <a href="/" class="block mt-8 text-white/70 hover:text-white">
+        ← Back to Home
+    </a>
+
+</div>
 </body>
 </html>
