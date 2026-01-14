@@ -5,58 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Digital Library</title>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Old CSS kept as backup -->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
-
 </head>
+
 <body class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white p-8">
+
+    <!-- PAGE CONTAINER -->
     <div class="max-w-7xl mx-auto">
-    <h1 class="text-5xl font-extrabold tracking-tight mb-4">
-    Interactive Digital Library
-    </h1>
 
-    <p class="max-w-xl text-white/80 mb-10">
-    An AI-assisted digital reading experience that enhances engagement through
-    visual and audio summaries.
-    </p>
+        <!-- HERO SECTION -->
+        <div class="mb-16">
+            <h1 class="text-5xl font-extrabold tracking-tight mb-4">
+                Interactive Digital Library
+            </h1>
 
-    <p>
-    <a href="/about">About Project</a>
-    </p>
+            <p class="max-w-xl text-white/80 mb-6">
+                An AI-assisted digital reading experience that enhances engagement through
+                visual and audio summaries.
+            </p>
 
-    <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8">
-    <input 
-        type="text" 
-        id="searchInput"
-        placeholder="Search books..."
-        class="w-full max-w-md px-4 py-3 rounded-xl
-                bg-white/20 backdrop-blur-md
-                text-white placeholder-white/70 outline-none mb-8"
-    />
-    </div>
+            <a
+                href="/about"
+                class="inline-block text-sm text-purple-200 hover:text-purple-100"
+            >
+                About the project →
+            </a>
+        </div>
 
-    <h2>Explore the Library</h2>
+        <!-- MAIN CONTENT CARD -->
+        <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        {% for book in books %}
-            <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-4
-            hover:-translate-y-2 hover:shadow-2xl
-            transition-all duration-300 text-center">
-                <a href="/book/{{ book.id }}">
-                    <img 
-                    src="{{ url_for('static', filename='images/covers/' + book.cover) }}" 
-                    alt="{{ book.title }}" 
-                    width="150"
+            <!-- SEARCH BAR -->
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search books..."
+                class="w-full max-w-lg mx-auto block px-5 py-3 rounded-xl
+                       bg-white/20 backdrop-blur-md
+                       text-white placeholder-white/70 outline-none mb-16"
+            />
+
+            <!-- SECTION TITLE -->
+            <h2 class="text-3xl font-bold mb-10 text-center">
+                Explore the Library
+            </h2>
+
+            <!-- BOOK GRID -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
+                {% for book in books %}
+                    <div
+                        class="bg-white/20 backdrop-blur-lg rounded-2xl p-5
+                               flex flex-col items-center
+                               hover:-translate-y-2 hover:shadow-2xl
+                               transition-all duration-300"
+                        data-title="{{ book.title | lower }}"
                     >
-                </a>
-                <p class="mt-4 font-semibold">{{ book.title }}</p>
+                        <a href="/book/{{ book.id }}">
+                            <img
+                                src="{{ url_for('static', filename='images/covers/' + book.cover) }}"
+                                alt="{{ book.title }}"
+                                class="w-32 h-48 object-cover rounded-lg"
+                            />
+                        </a>
+
+                        <p class="mt-4 text-sm font-semibold text-center">
+                            {{ book.title }}
+                        </p>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
 
-        {% endfor %}
     </div>
 
+    <!-- SEARCH SCRIPT -->
     <script src="{{ url_for('static', filename='js/search.js') }}"></script>
-    </div>
+
 </body>
 </html>
