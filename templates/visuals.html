@@ -22,6 +22,16 @@
 
 <div class="max-w-6xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-10
             text-[#3E2723] shadow-2xl">
+    <!-- BREADCRUMB -->
+    <nav class="text-sm text-[#6D4C41] mb-4">
+        <a href="/" class="hover:text-[#3E2723] underline">Home</a>
+        <span class="mx-2">→</span>
+        <a href="/book/{{ book.id }}" class="hover:text-[#3E2723] underline">
+            {{ book.title }}
+        </a>
+        <span class="mx-2">→</span>
+        <span class="text-[#3E2723] font-semibold">Visuals</span>
+    </nav>
 
     <h1 class="text-3xl font-bold mb-4">
         AI Visual Summary

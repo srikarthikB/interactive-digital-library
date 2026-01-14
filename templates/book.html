@@ -18,8 +18,16 @@
              from-[#5D4037] via-[#EFEBE9] to-[#5D4037]
              p-8">
 
-<div class="max-w-3xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-8
+    <div class="max-w-3xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-8
             text-[#3E2723] shadow-2xl">
+
+    <!-- BREADCRUMB -->
+    <nav class="text-sm text-[#6D4C41] mb-4">
+        <a href="/" class="hover:text-[#3E2723] underline">Home</a>
+        <span class="mx-2">→</span>
+        <span class="text-[#3E2723] font-semibold">{{ book.title }}</span>
+    </nav>
+
 
     <!-- TITLE -->
     <h1 class="text-3xl font-bold mb-4">{{ book.title }}</h1>
