@@ -32,6 +32,15 @@
     <!-- TITLE -->
     <h1 class="text-3xl font-bold mb-4">{{ book.title }}</h1>
 
+    <span class="inline-block text-xs px-3 py-1 rounded-full
+                bg-[#EFEBE9] text-[#5D4037] mb-4">
+        {{ book.status }}
+    </span>
+
+    <p class="text-sm text-[#6D4C41] mb-4">
+        {{ book.author }} • {{ book.genre }} • {{ book.era }}
+    </p>
+
     <!-- DESCRIPTION -->
     <p class="text-[#4E342E] mb-6 leading-relaxed">
         {{ book.description }}
@@ -41,26 +50,33 @@
     <div class="mt-6">
         <h3 class="text-xl font-semibold mb-2">AI Summary</h3>
 
-        <!-- Short summary -->
-        <p class="text-[#4E342E] leading-relaxed">
-            {{ summary.short }}
-        </p>
-
-        <!-- Read more -->
-        <button
-            onclick="document.getElementById('full-summary').classList.toggle('hidden')"
-            class="mt-2 text-sm text-[#6D4C41] hover:text-[#3E2723]"
-        >
-            Read full AI summary
-        </button>
-
-        <!-- Full summary (hidden by default) -->
-        <div id="full-summary" class="hidden mt-4">
-            <p class="text-[#4E342E] leading-relaxed whitespace-pre-line">
-                {{ summary.full }}
+        {% if summary %}
+            <!-- Short summary -->
+            <p class="text-white/80 leading-relaxed">
+                {{ summary.short }}
             </p>
-        </div>
+
+            <!-- Read more -->
+            <button
+                onclick="document.getElementById('full-summary').classList.toggle('hidden')"
+                class="mt-2 text-sm text-purple-300 hover:text-purple-200"
+            >
+                Read full AI summary
+            </button>
+
+            <!-- Full summary -->
+            <div id="full-summary" class="hidden mt-4">
+                <p class="text-white/70 leading-relaxed whitespace-pre-line">
+                    {{ summary.full }}
+                </p>
+            </div>
+        {% else %}
+            <p class="text-sm text-[#6D4C41] italic mt-4">
+                AI summary not available for this book yet.
+            </p>
+        {% endif %}
     </div>
+
 
     <!-- AUDIO -->
     <div class="mt-6">
