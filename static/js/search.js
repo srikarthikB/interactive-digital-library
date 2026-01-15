@@ -1,14 +1,14 @@
 const searchInput = document.getElementById("searchInput");
-const books = document.querySelectorAll(".book-card");
 
-searchInput.addEventListener("keyup", function () {
+searchInput.addEventListener("input", function () {
     const query = searchInput.value.toLowerCase();
+    const books = document.querySelectorAll("[data-title]");
 
-    books.forEach(function (book) {
+    books.forEach(book => {
         const title = book.getAttribute("data-title");
 
         if (title.includes(query)) {
-            book.style.display = "inline-block";
+            book.style.display = "flex";
         } else {
             book.style.display = "none";
         }
