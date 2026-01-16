@@ -54,13 +54,21 @@
     {% if visuals|length > 0 %}
 
         <!-- AI VISUAL INTERPRETATION BUTTON -->
-        <div class="mb-8">
+        <div class="flex flex-wrap gap-4 mb-6">
             <button
                 id="generateVisualBtn"
                 class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
-                       font-semibold hover:bg-[#5D4037] transition"
+                    font-semibold hover:bg-[#5D4037] transition"
             >
                 Show AI Visual Interpretation
+            </button>
+
+            <button
+                id="nextVisualBtn"
+                class="hidden px-6 py-3 rounded-xl bg-[#8D6E63] text-[#FAF7F2]
+                    font-semibold hover:bg-[#795548] transition"
+            >
+                Next visual →
             </button>
 
             <p class="mt-2 text-sm text-[#6D4C41]">
@@ -68,16 +76,17 @@
             </p>
         </div>
 
-        <!-- SINGLE RANDOM VISUAL (HIDDEN INITIALLY) -->
+        <!-- SINGLE RANDOM VISUAL -->
         <div id="aiVisualContainer"
-            class="hidden mb-10 relative w-full max-w-xl h-72 overflow-hidden">
+            class="hidden mb-10 relative w-full max-w-xl
+                    h-72 overflow-hidden
+                    flex flex-col items-center">
 
-            <!-- LOADING SPINNER -->
+            <!-- LOADER -->
             <div id="aiVisualLoader"
                 class="absolute inset-0 flex items-center justify-center
-                        bg-[#3E2723]/90 backdrop-blur-sm
-                        rounded-xl hidden z-10">
-                <div class="w-12 h-12 border-4 border-[#FAF7F2] border-t-transparent
+                        bg-[#FAF7F2] rounded-xl">
+                <div class="w-10 h-10 border-4 border-[#6D4C41] border-t-transparent
                             rounded-full animate-spin"></div>
             </div>
 
@@ -86,12 +95,16 @@
                 id="aiVisualImage"
                 src=""
                 alt="AI generated visual interpretation"
-                class="w-full h-72 object-cover rounded-xl
-                    shadow-lg hidden opacity-0
-                    transition-opacity duration-700 ease-in-out"
+                class="w-full h-72 object-cover rounded-xl shadow-lg hidden
+                    transition-opacity duration-500 opacity-0"
             />
-        </div>
 
+            <!-- ✅ CAPTION -->
+            <p
+                id="aiVisualCaption"
+                class="mt-4 text-sm italic text-[#6D4C41] text-center"
+            ></p>
+        </div>
 
         <!-- VISUAL GRID (HIDDEN INITIALLY) -->
         <div id="visualGrid"
