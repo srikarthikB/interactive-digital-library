@@ -46,58 +46,62 @@
         the original text.
     </p>
 
-    {% if visuals|length == 0 %}
+    {% if visuals|length > 0 %}
+
+        <!-- AI VISUAL INTERPRETATION BUTTON -->
+        <div class="mb-8">
+            <button
+                id="generateVisualBtn"
+                class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
+                       font-semibold hover:bg-[#5D4037] transition"
+            >
+                Show AI Visual Interpretation
+            </button>
+
+            <p class="mt-2 text-sm text-[#6D4C41]">
+                Visuals are pre-generated using AI models for reliability.
+            </p>
+        </div>
+
+        <!-- SINGLE RANDOM VISUAL (HIDDEN INITIALLY) -->
+        <div id="aiVisualContainer" class="hidden mb-10">
+            <img
+                id="aiVisualImage"
+                src=""
+                alt="AI generated visual interpretation"
+                class="w-full max-w-xl h-72 object-cover rounded-xl
+                       border border-[#6D4C41] shadow-lg"
+            />
+        </div>
+
+        <!-- VISUAL GRID (HIDDEN INITIALLY) -->
+        <div id="visualGrid"
+             class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+            {% for image in visuals %}
+                <div class="bg-[#FAF7F2] rounded-2xl p-4 shadow-lg">
+                    <img
+                        src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
+                        data-visual-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
+                        alt="AI generated visual"
+                        class="w-full h-64 object-cover rounded-lg mb-3
+                               border border-[#6D4C41]"
+                    />
+                    <p class="text-sm text-[#6D4C41]">
+                        AI-generated visualization of a significant narrative moment.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <!-- NO VISUALS MESSAGE -->
         <p class="text-[#6D4C41] italic mb-6">
             No AI visual summaries are available for this book yet.
         </p>
+
     {% endif %}
-
-    <!-- AI VISUAL INTERPRETATION BUTTON -->
-    <div class="mb-8">
-        <button
-            id="generateVisualBtn"
-            class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
-                   font-semibold hover:bg-[#5D4037] transition"
-        >
-            Show AI Visual Interpretation
-        </button>
-
-        <p class="mt-2 text-sm text-[#6D4C41]">
-            Visuals are pre-generated using AI models for reliability.
-        </p>
-    </div>
-
-    <!-- SINGLE RANDOM VISUAL (HIDDEN INITIALLY) -->
-    <div id="aiVisualContainer" class="hidden mb-10">
-        <img
-            id="aiVisualImage"
-            src=""
-            alt="AI generated visual interpretation"
-            class="w-full max-w-xl h-72 object-cover rounded-xl
-                   border border-[#6D4C41] shadow-lg"
-        />
-    </div>
-
-    <!-- VISUAL GRID (HIDDEN INITIALLY) -->
-    <div id="visualGrid"
-         class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-
-        {% for image in visuals %}
-            <div class="bg-[#FAF7F2] rounded-2xl p-4 shadow-lg">
-                <img
-                    src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
-                    data-visual-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
-                    alt="AI generated visual"
-                    class="w-full h-64 object-cover rounded-lg mb-3
-                           border border-[#6D4C41]"
-                />
-                <p class="text-sm text-[#6D4C41]">
-                    AI-generated visualization of a significant narrative moment.
-                </p>
-            </div>
-        {% endfor %}
-
-    </div>
 
     <!-- BACK LINK -->
     <a href="/book/{{ book.id }}"
