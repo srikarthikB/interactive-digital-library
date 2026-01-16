@@ -62,15 +62,7 @@
             >
                 Show AI Visual Interpretation
             </button>
-
-            <button
-                id="nextVisualBtn"
-                class="hidden px-6 py-3 rounded-xl bg-[#8D6E63] text-[#FAF7F2]
-                    font-semibold hover:bg-[#795548] transition"
-            >
-                Next visual →
-            </button>
-
+            
             <p class="mt-2 text-sm text-[#6D4C41]">
                 Visuals are pre-generated using AI models for reliability.
             </p>
@@ -92,20 +84,22 @@
 
             <!-- IMAGE -->
             <img
-                id="aiVisualImage"
-                src=""
-                alt="AI generated visual interpretation"
-                class="w-full h-72 object-cover rounded-xl shadow-lg hidden
-                    transition-opacity duration-500 opacity-0"
-            />
-
-            <!-- ✅ CAPTION -->
-            <p
-                id="aiVisualCaption"
-                class="mt-4 text-sm italic text-[#6D4C41] text-center"
-            ></p>
+            id="aiVisualImage"
+            src=""
+            alt="AI generated visual interpretation"
+            class="w-full h-72 object-contain
+                rounded-xl shadow-lg
+                bg-[#EFE6DC]
+                transition-opacity duration-500 opacity-0 hidden"
+        />
         </div>
 
+        <!-- ✅ CAPTION -->
+        <p
+            id="aiVisualCaption"
+            class="mt-4 text-sm italic text-[#6D4C41] text-center"
+        ></p>
+        
         <!-- VISUAL GRID (HIDDEN INITIALLY) -->
         <div id="visualGrid"
              class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
