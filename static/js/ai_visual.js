@@ -1,26 +1,41 @@
-const generateBtn = document.getElementById("generateVisualBtn");
-const visualContainer = document.getElementById("aiVisualContainer");
-const visualImage = document.getElementById("aiVisualImage");
+document.addEventListener("DOMContentLoaded", () => {
 
-const visualImages = Array.from(
-    document.querySelectorAll("[data-visual-src]")
-).map(img => img.getAttribute("data-visual-src"));
+    const generateBtn = document.getElementById("generateVisualBtn");
+    const visualContainer = document.getElementById("aiVisualContainer");
+    const visualImage = document.getElementById("aiVisualImage");
+    const loader = document.getElementById("aiVisualLoader");
 
-if (generateBtn && visualImages.length > 0) {
+    const visualImages = Array.from(
+        document.querySelectorAll("[data-visual-src]")
+    ).map(img => img.dataset.visualSrc);
+
+    if (!generateBtn || visualImages.length === 0) return;
+
     generateBtn.addEventListener("click", () => {
 
-    // 1️⃣ Show container immediately
-    visualContainer.classList.remove("hidden");
+        // Show container
+        visualContainer.classList.remove("hidden");
 
-    // 2️⃣ Loading illusion
-    visualImage.src = "";
-    visualImage.alt = "Generating AI visual interpretation...";
+        // Show loader
+        loader.classList.remove("hidden");
 
-    // 3️⃣ Slight delay to simulate generation
-    setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * visualImages.length);
-        visualImage.src = visualImages[randomIndex];
-        visualImage.alt = "AI generated visual interpretation";
-    }, 600); // 600ms feels natural
+        // Hide image
+        visualImage.classList.add("hidden");
+
+        // FORCE browser to render loader
+        requestAnimationFrame(() => {
+
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * visualImages.length);
+                visualImage.src = visualImages[randomIndex];
+
+                // Hide loader
+                loader.classList.add("hidden");
+
+                // Show image
+                visualImage.classList.remove("hidden");
+
+            }, 800); // slightly longer so you can SEE it
+        });
+    });
 });
-}
