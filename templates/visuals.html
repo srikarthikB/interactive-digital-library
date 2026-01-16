@@ -69,15 +69,29 @@
         </div>
 
         <!-- SINGLE RANDOM VISUAL (HIDDEN INITIALLY) -->
-        <div id="aiVisualContainer" class="hidden mb-10">
+        <div id="aiVisualContainer"
+            class="hidden mb-10 relative w-full max-w-xl h-72 overflow-hidden">
+
+            <!-- LOADING SPINNER -->
+            <div id="aiVisualLoader"
+                class="absolute inset-0 flex items-center justify-center
+                        bg-[#3E2723]/90 backdrop-blur-sm
+                        rounded-xl hidden z-10">
+                <div class="w-12 h-12 border-4 border-[#FAF7F2] border-t-transparent
+                            rounded-full animate-spin"></div>
+            </div>
+
+            <!-- IMAGE -->
             <img
                 id="aiVisualImage"
                 src=""
                 alt="AI generated visual interpretation"
-                class="w-full max-w-xl h-72 object-cover rounded-xl
-                       border border-[#6D4C41] shadow-lg"
+                class="w-full h-72 object-cover rounded-xl
+                    shadow-lg hidden opacity-0
+                    transition-opacity duration-700 ease-in-out"
             />
         </div>
+
 
         <!-- VISUAL GRID (HIDDEN INITIALLY) -->
         <div id="visualGrid"

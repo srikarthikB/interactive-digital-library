@@ -17,25 +17,27 @@ document.addEventListener("DOMContentLoaded", () => {
         visualContainer.classList.remove("hidden");
 
         // Show loader
-        loader.classList.remove("hidden");
+        loader?.classList.remove("hidden");
 
-        // Hide image
-        visualImage.classList.add("hidden");
+        // Reset image
+        visualImage.classList.add("hidden", "opacity-0");
 
-        // FORCE browser to render loader
-        requestAnimationFrame(() => {
+        setTimeout(() => {
+            const randomIndex = Math.floor(Math.random() * visualImages.length);
+            visualImage.src = visualImages[randomIndex];
 
-            setTimeout(() => {
-                const randomIndex = Math.floor(Math.random() * visualImages.length);
-                visualImage.src = visualImages[randomIndex];
+            // Hide loader
+            loader?.classList.add("hidden");
 
-                // Hide loader
-                loader.classList.add("hidden");
+            // Show image
+            visualImage.classList.remove("hidden");
 
-                // Show image
-                visualImage.classList.remove("hidden");
+            // FORCE browser reflow
+            visualImage.offsetHeight;
 
-            }, 800); // slightly longer so you can SEE it
-        });
+            // Fade in
+            visualImage.classList.remove("opacity-0");
+
+        }, 700);
     });
 });
