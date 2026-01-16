@@ -8,8 +8,24 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Old CSS kept as backup -->
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+    <!-- Filter button styles -->
+    <style>
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            background-color: #EFEBE9;
+            color: #5D4037;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            background-color: #D7CCC8;
+        }
+        .filter-btn.active {
+            background-color: #6D4C41;
+            color: #FAF7F2;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen bg-[#2B1B12] text-[#FAF7F2] p-8">
@@ -28,16 +44,14 @@
                 visual and audio summaries.
             </p>
 
-            <a
-                href="/about"
-                class="inline-block text-sm text-purple-200 hover:text-purple-100"
-            >
+            <a href="/about"
+               class="inline-block text-sm text-purple-200 hover:text-purple-100">
                 About the project →
             </a>
         </div>
 
         <!-- MAIN CONTENT CARD -->
-        <div class="max-w-7xl mx-auto bg-gradient-to-b from-[#4E342E] to-[#3E2723]
+        <div class="bg-gradient-to-b from-[#4E342E] to-[#3E2723]
                     rounded-2xl p-10 shadow-2xl border border-[#5D4037]">
 
             <!-- SEARCH BAR -->
@@ -56,25 +70,38 @@
             </h2>
 
             <div class="h-3 bg-gradient-to-r from-[#6D4C41] via-[#5D4037] to-[#6D4C41]
-            rounded mb-10 shadow-inner"></div>
+                        rounded mb-10 shadow-inner"></div>
+
+            <!-- HOME SECTIONS -->
+            <div class="flex flex-wrap gap-3 mb-10 justify-center">
+
+                <button class="filter-btn active" data-filter="all">All Books</button>
+                <button class="filter-btn" data-filter="epic">Epics</button>
+                <button class="filter-btn" data-filter="public">Public Domain</button>
+                <button class="filter-btn" data-filter="copyrighted">Copyrighted</button>
+                <button class="filter-btn" data-filter="india">Indian</button>
+
+            </div>
 
             <!-- BOOK GRID -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
                 {% for book in books %}
                     <div
-                        class="bg-[#FAF7F2] text-[#3E2723] rounded-lg p-4
-                                shadow-lg hover:shadow-2xl
-                                hover:-translate-y-1 transition-all duration-500
-                                flex flex-col items-center"
+                        class="book-card bg-[#FAF7F2] text-[#3E2723] rounded-lg p-4
+                               shadow-lg hover:shadow-2xl
+                               hover:-translate-y-1 transition-all duration-500
+                               flex flex-col items-center"
                         data-title="{{ book.title | lower }}"
-                    >
+                        data-category="{{ book.category }}"
+                        data-region="{{ book.region }}"
+                        data-copyright="{{ book.copyright }}">
+
                         <a href="/book/{{ book.id }}">
                             <img
                                 src="{{ url_for('static', filename='images/covers/' + book.cover) }}"
                                 alt="{{ book.title }}"
                                 class="w-28 h-44 object-cover rounded-sm border border-[#5D4037]"
                             />
-
                         </a>
 
                         <p class="mt-4 text-sm font-semibold text-center">
@@ -83,11 +110,11 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
 
+        </div>
     </div>
 
-    <!-- SEARCH SCRIPT -->
+    <!-- SEARCH + FILTER SCRIPT -->
     <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 
 </body>
