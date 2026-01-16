@@ -69,7 +69,8 @@
         </button>
 
         <!-- Full summary -->
-        <div id="full-summary" class="hidden mt-4">
+        <div id="full-summary"
+            class="hidden mt-4 transition-all duration-300 ease-in-out">
             <p class="text-[#4E342E] leading-relaxed whitespace-pre-line">
                 {{ summary.full }}
             </p>
@@ -84,6 +85,12 @@
     {% endif %}
 
 </div>
+
+<!-- AI TRANSPARENCY NOTE -->
+<p class="mt-6 text-xs italic text-[#6D4C41] max-w-xl">
+    AI-generated summaries are intended as pre-reading aids and may not fully
+    capture the depth or nuances of the original text.
+</p>
 
     <!-- AUDIO -->
     <div class="mt-6">

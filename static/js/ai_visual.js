@@ -8,8 +8,19 @@ const visualImages = Array.from(
 
 if (generateBtn && visualImages.length > 0) {
     generateBtn.addEventListener("click", () => {
+
+    // 1️⃣ Show container immediately
+    visualContainer.classList.remove("hidden");
+
+    // 2️⃣ Loading illusion
+    visualImage.src = "";
+    visualImage.alt = "Generating AI visual interpretation...";
+
+    // 3️⃣ Slight delay to simulate generation
+    setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * visualImages.length);
         visualImage.src = visualImages[randomIndex];
-        visualContainer.classList.remove("hidden");
-    });
+        visualImage.alt = "AI generated visual interpretation";
+    }, 600); // 600ms feels natural
+});
 }
