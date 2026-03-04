@@ -62,6 +62,18 @@ def book_visuals(book_id):
         visuals=visuals
     )
 
+@app.route("/college-library")
+def college_library():
+    with open("books.json") as f:
+        books = json.load(f)
+
+    academic_books = [
+        book for book in books
+        if book.get("category") == "academic"
+    ]
+    
+    return render_template("college_library.html", books=academic_books)
+
 
 if __name__ == "__main__":
     app.run(debug=True) 

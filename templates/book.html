@@ -9,6 +9,20 @@
 body{
 font-family: Georgia, "Times New Roman", serif;
 }
+
+.ai-question-btn{
+padding:0.4rem 0.9rem;
+border-radius:9999px;
+background:#FAF7F2;
+border:1px solid #D7CCC8;
+font-size:0.8rem;
+color:#5D4037;
+transition:all 0.2s ease;
+}
+
+.ai-question-btn:hover{
+background:#D7CCC8;
+}
 </style>
 
 </head>
@@ -91,6 +105,48 @@ AI-generated summaries are intended as pre-reading aids and may not fully
 capture the depth or nuances of the original text.
 </p>
 
+<!-- ASK AI ABOUT BOOK -->
+<div class="mt-10 p-6 rounded-xl bg-[#EFE6DC] border border-[#D7CCC8]">
+
+<h3 class="text-lg font-semibold mb-3">
+Ask AI about this book
+</h3>
+
+<p class="text-sm text-[#5D4037] mb-4">
+Select a question to learn more about the themes and ideas in this book.
+</p>
+
+<!-- PRESET QUESTIONS -->
+<div class="flex flex-wrap gap-2 mb-4">
+
+<button class="ai-question-btn"
+onclick="askAI('theme')">
+What is the main theme?
+</button>
+
+<button class="ai-question-btn"
+onclick="askAI('characters')">
+Who are the main characters?
+</button>
+
+<button class="ai-question-btn"
+onclick="askAI('plot')">
+What is the story about?
+</button>
+
+</div>
+
+<!-- LOADING -->
+<p id="aiLoading"
+class="text-sm text-[#6D4C41] italic hidden">
+AI is analyzing the book...
+</p>
+
+<!-- ANSWER -->
+<p id="aiAnswer"
+class="mt-4 text-sm text-[#4E342E] hidden"></p>
+
+</div>
 
 <!-- AUDIO -->
 <div class="mb-10">
@@ -173,6 +229,43 @@ class="block mt-12 text-[#6D4C41] hover:text-[#3E2723] font-medium">
 </a>
 
 </div>
+
+<script>
+
+function askAI(type){
+
+const answerBox = document.getElementById("aiAnswer");
+const loading = document.getElementById("aiLoading");
+
+answerBox.classList.add("hidden");
+loading.classList.remove("hidden");
+
+let answer = "";
+
+if(type === "theme"){
+answer = "The central theme of this book explores human conflict, moral choices, and the consequences of decisions made by its characters.";
+}
+
+else if(type === "characters"){
+answer = "The story revolves around several key characters whose motivations and actions drive the narrative and reveal deeper themes.";
+}
+
+else if(type === "plot"){
+answer = "The plot follows a sequence of events that gradually uncover conflicts, relationships, and moral dilemmas faced by the characters.";
+}
+
+setTimeout(() => {
+
+loading.classList.add("hidden");
+
+answerBox.innerText = answer;
+answerBox.classList.remove("hidden");
+
+}, 1200);
+
+}
+
+</script>
 
 </body>
 </html>

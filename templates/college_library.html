@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Library Integration</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+font-family: Georgia, "Times New Roman", serif;
+}
+.dept-btn{
+padding:0.45rem 1.1rem;
+border-radius:9999px;
+background-color:#FAF7F2;
+color:#5D4037;
+font-size:0.85rem;
+border:1px solid #D7CCC8;
+transition:all 0.2s ease;
+}
+
+.dept-btn:hover{
+background-color:#D7CCC8;
+}
+
+.dept-btn.active{
+background-color:#6D4C41;
+color:#FAF7F2;
+}
+</style>
+
+</head>
+
+
+<body class="min-h-screen bg-gradient-to-br
+from-[#5D4037] via-[#EFEBE9] to-[#5D4037] p-8">
+
+
+<div class="max-w-5xl mx-auto bg-[#FAF7F2]/95 rounded-3xl p-10 shadow-2xl text-[#3E2723]">
+
+
+<h1 class="text-4xl font-bold mb-6">
+College Library Catalog
+</h1>
+
+
+<p class="text-[#4E342E] mb-10 leading-relaxed">
+This section demonstrates how the Interactive Digital Library platform
+can integrate with a college library database to display available
+academic textbooks across different engineering departments.
+</p>
+
+<div class="bg-[#EFE6DC] border border-[#D7CCC8] rounded-xl p-4 mb-10 shadow-sm">
+
+    <p class="text-sm text-[#5D4037] mb-3 font-semibold">
+    Filter by Department
+    </p>
+
+    <div class="flex flex-wrap gap-3">
+
+        <button class="dept-btn active" data-dept="all">
+            All
+        </button>
+
+        <button class="dept-btn" data-dept="cse">
+            CSE
+        </button>
+
+        <button class="dept-btn" data-dept="ece">
+            ECE
+        </button>
+
+        <button class="dept-btn" data-dept="mech">
+            Mechanical
+        </button>
+
+    </div>
+
+</div>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+{% for book in books %}
+
+<div
+class="library-book bg-[#EFE6DC] rounded-xl p-5 border border-[#D7CCC8]"
+data-department="{{ book.department | lower }}">
+
+<h2 class="font-semibold text-lg">
+{{ book.title }}
+</h2>
+
+<p class="text-sm text-[#5D4037] mt-1">
+{{ book.author }}
+</p>
+
+<p class="text-xs mt-2 text-[#6D4C41]">
+Department: {{ book.department }}
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<a href="/" class="inline-block mt-10 text-[#6D4C41] hover:text-[#3E2723]">
+← Back to Home
+</a>
+
+
+</div>
+
+<script>
+
+const deptButtons = document.querySelectorAll(".dept-btn");
+const books = document.querySelectorAll(".library-book");
+
+deptButtons.forEach(btn => {
+
+btn.addEventListener("click", () => {
+
+deptButtons.forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+
+const dept = btn.dataset.dept;
+
+books.forEach(book => {
+
+const bookDept = book.dataset.department;
+
+if(dept === "all" || dept === bookDept){
+book.style.display = "block";
+}
+else{
+book.style.display = "none";
+}
+
+});
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

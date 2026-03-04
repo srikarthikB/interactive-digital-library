@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Introduction to Algorithms",
+    "author": "Thomas H. Cormen",
+    "department": "CSE",
+    "availability": "Available"
+  },
+  {
+    "title": "Computer Networks",
+    "author": "Andrew S. Tanenbaum",
+    "department": "CSE",
+    "availability": "Available"
+  },
+  {
+    "title": "Digital Signal Processing",
+    "author": "John G. Proakis",
+    "department": "ECE",
+    "availability": "Available"
+  },
+  {
+    "title": "Signals and Systems",
+    "author": "Alan V. Oppenheim",
+    "department": "ECE",
+    "availability": "Issued"
+  },
+  {
+    "title": "Engineering Mechanics",
+    "author": "Hibbeler",
+    "department": "Mechanical",
+    "availability": "Available"
+  },
+  {
+    "title": "Thermodynamics",
+    "author": "Yunus A. Cengel",
+    "department": "Mechanical",
+    "availability": "Available"
+  }
+]
