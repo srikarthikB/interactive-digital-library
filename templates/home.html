@@ -1,152 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Digital Library</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Digital Library</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Filter button styles -->
-    <style>
-        .filter-btn {
-            padding: 0.5rem 1.25rem;
-            border-radius: 9999px;
-            background-color: #EFEBE9;
-            color: #5D4037;
-            font-size: 0.875rem;
-            transition: all 0.2s ease;
-        }
-        .filter-btn:hover {
-            background-color: #D7CCC8;
-        }
-        .filter-btn.active {
-            background-color: #6D4C41;
-            color: #FAF7F2;
-        }
-    </style>
+<style>
+body{
+font-family: Georgia, "Times New Roman", serif;
+}
+
+.filter-btn{
+padding:0.5rem 1.25rem;
+border-radius:9999px;
+background-color:#EFEBE9;
+color:#5D4037;
+font-size:0.875rem;
+transition:all 0.2s ease;
+}
+
+.filter-btn:hover{
+background-color:#D7CCC8;
+}
+
+.filter-btn.active{
+background-color:#6D4C41;
+color:#FAF7F2;
+}
+</style>
+
 </head>
 
 <body class="min-h-screen bg-[#2B1B12] text-[#FAF7F2] p-8">
 
-    <!-- PAGE CONTAINER -->
-    <div class="max-w-7xl mx-auto">
+<div class="max-w-7xl mx-auto">
 
-        <!-- HERO SECTION -->
-        <div class="mb-16">
-            <h1 class="text-5xl font-extrabold tracking-tight mb-4">
-                Interactive Digital Library
-            </h1>
+<!-- HERO -->
+<div class="mb-20 text-center">
 
-            <p class="max-w-xl text-white/80 mb-6">
-                An AI-assisted digital reading experience that enhances engagement through
-                visual and audio summaries.
-            </p>
+<h1 class="text-5xl font-extrabold tracking-tight mb-5">
+Interactive Digital Library
+</h1>
 
-            <a href="/about"
-               class="inline-block text-sm text-purple-200 hover:text-purple-100">
-                About the project →
-            </a>
-        </div>
+<p class="max-w-xl mx-auto text-white/80 mb-6 leading-relaxed">
+An AI-assisted digital reading experience that enhances engagement through
+visual and audio summaries.
+</p>
 
-        <!-- MAIN CONTENT CARD -->
-        <div class="bg-gradient-to-b from-[#4E342E] to-[#3E2723]
-                    rounded-2xl p-10 shadow-2xl border border-[#5D4037]">
+<a href="/about"
+class="inline-block text-sm text-purple-200 hover:text-purple-100">
+About the project →
+</a>
 
-            <!-- SEARCH BAR -->
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="Search books..."
-                class="w-full max-w-lg mx-auto block px-5 py-3 rounded-xl
-                       bg-white/20 backdrop-blur-md
-                       text-white placeholder-white/70 outline-none mb-16"
-            />
-
-            <!-- SECTION TITLE -->
-            <h2 class="text-3xl font-bold mb-10 text-center">
-                Explore the Library
-            </h2>
-
-            <div class="h-3 bg-gradient-to-r from-[#6D4C41] via-[#5D4037] to-[#6D4C41]
-                        rounded mb-10 shadow-inner"></div>
-
-            <!-- HOME SECTIONS -->
-            <div class="flex flex-wrap gap-3 mb-10 justify-center">
-
-                <button class="filter-btn active" data-filter="all">All Books</button>
-                <button class="filter-btn" data-filter="epic">Epics</button>
-                <button class="filter-btn" data-filter="public">Public Domain</button>
-                <button class="filter-btn" data-filter="copyrighted">Copyrighted</button>
-                <button class="filter-btn" data-filter="india">Indian</button>
-                <button class="filter-btn" data-filter="cse">CSE</button>
-                <button class="filter-btn" data-filter="ece">ECE</button>
-                <button class="filter-btn" data-filter="mech">Mechanical</button>
-                <button class="filter-btn" data-filter="academic">Academic</button>
-            </div>
-
-            <!-- BOOK GRID -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
-                {% for book in books %}
-                    <div
-                        class="book-card bg-[#FAF7F2] text-[#3E2723] rounded-lg p-4
-                            shadow-lg hover:shadow-2xl
-                            hover:-translate-y-1 transition-all duration-500
-                            flex flex-col items-center"
-                        data-title="{{ book.title | lower }}"
-                        data-category="{{ book.category }}"
-                        data-department="{{ book.department }}"
-                        data-region="{{ book.region }}"
-                        data-copyright="{{ book.copyright }}">
-
-                        <!-- BOOK STATUS BADGE -->
-                        <div class="mb-3">
-                            {% if book.copyright == "public" %}
-                                <span class="inline-block text-xs px-3 py-1 rounded-full
-                                            bg-green-100 text-green-800">
-                                    Public Domain
-                                </span>
-                            {% else %}
-                                <span class="inline-block text-xs px-3 py-1 rounded-full
-                                            bg-red-100 text-red-800">
-                                    Copyrighted Content
-                                </span>
-                            {% endif %}
-                        </div>
-
-                        <!-- <span class="inline-block ml-2 text-xs px-3 py-1 rounded-full
-                                    bg-yellow-100 text-yellow-800">
-                            AI Summary Available
-                        </span> -->
+</div>
 
 
-                        <a href="/book/{{ book.id }}">
-                            <img
-                                src="{{ url_for('static', filename='images/covers/' + book.cover) }}"
-                                alt="{{ book.title }}"
-                                class="w-28 h-44 object-cover rounded-sm border border-[#5D4037]"
-                            />
-                        </a>
+<!-- MAIN LIBRARY CARD -->
+<div class="bg-gradient-to-b from-[#4E342E] to-[#3E2723]
+rounded-2xl p-10 shadow-2xl border border-[#5D4037]">
 
-                        <p class="mt-4 text-sm font-semibold text-center">
-                            {{ book.title }}
-                        </p>
-                    </div>
-                {% endfor %}
-            </div>
 
-        </div>
-    </div>
+<!-- SEARCH -->
+<input
+id="searchInput"
+type="text"
+placeholder="Search books..."
+class="w-full max-w-lg mx-auto block px-5 py-3 rounded-xl
+bg-white/20 backdrop-blur-md
+text-white placeholder-white/70 outline-none
+focus:ring-2 focus:ring-[#A1887F]
+mb-16"
+/>
 
-    <!-- SEARCH + FILTER SCRIPT -->
-    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 
-    <!-- AI DISCLAIMER -->
-    <p class="mt-16 text-center text-xs italic text-[#A1887F]">
-        This platform uses AI-assisted summaries and visuals strictly as educational
-        pre-reading aids. Full texts are accessed via external public sources.
-    </p>
+<!-- TITLE -->
+<h2 class="text-3xl font-bold mb-10 text-center">
+Explore the Library
+</h2>
+
+
+<div class="h-3 bg-gradient-to-r from-[#6D4C41] via-[#5D4037] to-[#6D4C41]
+rounded mb-12 shadow-inner"></div>
+
+
+<!-- FILTERS -->
+<div class="flex flex-wrap gap-3 mb-12 justify-center">
+
+<button class="filter-btn active" data-filter="all">All Books</button>
+<button class="filter-btn" data-filter="epic">Epics</button>
+<button class="filter-btn" data-filter="public">Public Domain</button>
+<button class="filter-btn" data-filter="copyrighted">Copyrighted</button>
+<button class="filter-btn" data-filter="india">Indian</button>
+<button class="filter-btn" data-filter="cse">CSE</button>
+<button class="filter-btn" data-filter="ece">ECE</button>
+<button class="filter-btn" data-filter="mech">Mechanical</button>
+<button class="filter-btn" data-filter="academic">Academic</button>
+
+</div>
+
+
+<!-- BOOK GRID -->
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10">
+
+{% for book in books %}
+
+<div
+class="book-card bg-[#FAF7F2] text-[#3E2723] rounded-lg p-4
+shadow-lg hover:shadow-2xl
+hover:-translate-y-2 hover:scale-[1.02]
+transition-all duration-300
+flex flex-col items-center"
+data-title="{{ book.title | lower }}"
+data-category="{{ book.category }}"
+data-department="{{ book.department }}"
+data-region="{{ book.region }}"
+data-copyright="{{ book.copyright }}">
+
+
+<!-- STATUS BADGE -->
+<div class="mb-3">
+
+{% if book.copyright == "public" %}
+
+<span class="inline-block text-xs px-3 py-1 rounded-full
+bg-green-100 text-green-800">
+Public Domain
+</span>
+
+{% else %}
+
+<span class="inline-block text-xs px-3 py-1 rounded-full
+bg-red-100 text-red-800">
+Copyrighted Content
+</span>
+
+{% endif %}
+
+</div>
+
+
+<!-- COVER -->
+<a href="/book/{{ book.id }}">
+
+<img
+src="{{ url_for('static', filename='images/covers/' + book.cover) }}"
+alt="{{ book.title }}"
+class="w-28 h-44 object-cover rounded-sm border border-[#5D4037]"
+>
+
+</a>
+
+
+<!-- TITLE -->
+<p class="mt-4 text-sm font-semibold text-center leading-snug">
+{{ book.title }}
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+
+
+<!-- FOOTER DISCLAIMER -->
+<p class="mt-20 text-center text-xs italic text-[#A1887F] max-w-xl mx-auto">
+This platform uses AI-assisted summaries and visuals strictly as educational
+pre-reading aids. Full texts are accessed via external public sources.
+</p>
+
 
 </body>
 </html>

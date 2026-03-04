@@ -1,143 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Visual Summary</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Visual Summary</title>
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Serif font for library feel -->
-    <style>
-        body {
-            font-family: Georgia, "Times New Roman", serif;
-        }
-    </style>
+<style>
+body{
+font-family: Georgia, "Times New Roman", serif;
+}
+</style>
+
 </head>
 
-<body class="min-h-screen bg-gradient-to-br
-             from-[#5D4037] via-[#EFEBE9] to-[#5D4037]
-             p-8">
+<body class="min-h-screen bg-gradient-to-br from-[#5D4037] via-[#EFEBE9] to-[#5D4037] p-8">
 
-<div class="max-w-6xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-10
-            text-[#3E2723] shadow-2xl">
+<div class="max-w-6xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-10 text-[#3E2723] shadow-2xl">
 
-    <!-- BREADCRUMB -->
-    <nav class="text-sm text-[#6D4C41] mb-4">
-        <a href="/" class="hover:text-[#3E2723] underline">Home</a>
-        <span class="mx-2">→</span>
-        <a href="/book/{{ book.id }}" class="hover:text-[#3E2723] underline">
-            {{ book.title }}
-        </a>
-        <span class="mx-2">→</span>
-        <span class="text-[#3E2723] font-semibold">Visuals</span>
-    </nav>
+<!-- BREADCRUMB -->
+<nav class="text-sm text-[#6D4C41] mb-6">
+<a href="/" class="hover:text-[#3E2723] underline">Home</a>
+<span class="mx-2">→</span>
+<a href="/book/{{ book.id }}" class="hover:text-[#3E2723] underline">
+{{ book.title }}
+</a>
+<span class="mx-2">→</span>
+<span class="text-[#3E2723] font-semibold">Visuals</span>
+</nav>
 
-    <!-- TITLE -->
-    <h1 class="text-3xl font-bold mb-4">
-        AI Visual Summary
-    </h1>
+<!-- TITLE -->
+<h1 class="text-3xl font-bold mb-4">
+AI Visual Summary
+</h1>
 
-    <!-- DESCRIPTION -->
-    <p class="text-[#4E342E] mb-8 max-w-3xl leading-relaxed">
-        These AI-generated visuals represent key scenes and narrative moments from the book.
-        They are intended as visual aids to support understanding, not as replacements for
-        the original text.
-    </p>
+<!-- DESCRIPTION -->
+<p class="text-[#4E342E] mb-4 max-w-3xl leading-relaxed">
+These AI-generated visuals represent key scenes and narrative moments from the book.
+They are intended as visual aids to support understanding, not as replacements for
+the original text.
+</p>
 
-    <p class="text-xs italic text-[#6D4C41] mb-6">
-    AI-generated visuals are interpretive representations and may vary from the
-    original narrative descriptions.
-    </p>
+<p class="text-xs italic text-[#6D4C41] mb-10">
+AI-generated visuals are interpretive representations and may vary from the
+original narrative descriptions.
+</p>
 
-    {% if visuals|length > 0 %}
+{% if visuals|length > 0 %}
 
-        <!-- AI VISUAL INTERPRETATION BUTTON -->
-        <div class="flex flex-wrap gap-4 mb-6">
-            <button
-                id="generateVisualBtn"
-                class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
-                    font-semibold hover:bg-[#5D4037] transition"
-            >
-                Show AI Visual Interpretation
-            </button>
-            
-            <p class="mt-2 text-sm text-[#6D4C41]">
-                Visuals are pre-generated using AI models for reliability.
-            </p>
-        </div>
+<!-- BUTTON + NOTE -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10">
 
-        <!-- SINGLE RANDOM VISUAL -->
-        <div id="aiVisualContainer"
-            class="hidden mb-10 relative w-full max-w-xl
-                    h-72 overflow-hidden
-                    flex flex-col items-center">
+<button
+id="generateVisualBtn"
+class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2] font-semibold hover:bg-[#5D4037] transition">
+Show AI Visual Interpretation
+</button>
 
-            <!-- LOADER -->
-            <div id="aiVisualLoader"
-                class="absolute inset-0 flex items-center justify-center
-                        bg-[#FAF7F2] rounded-xl">
-                <div class="w-10 h-10 border-4 border-[#6D4C41] border-t-transparent
-                            rounded-full animate-spin"></div>
-            </div>
-
-            <!-- IMAGE -->
-            <img
-            id="aiVisualImage"
-            src=""
-            alt="AI generated visual interpretation"
-            class="w-full h-72 object-contain
-                rounded-xl shadow-lg
-                bg-[#EFE6DC]
-                transition-opacity duration-500 opacity-0 hidden"
-        />
-        </div>
-
-        <!-- ✅ CAPTION -->
-        <p
-            id="aiVisualCaption"
-            class="mt-4 text-sm italic text-[#6D4C41] text-center"
-        ></p>
-        
-        <!-- VISUAL GRID (HIDDEN INITIALLY) -->
-        <div id="visualGrid"
-             class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-
-            {% for image in visuals %}
-                <div class="bg-[#FAF7F2] rounded-2xl p-4 shadow-lg">
-                    <img
-                        src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
-                        data-visual-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
-                        alt="AI generated visual"
-                        class="w-full h-64 object-cover rounded-lg mb-3
-                               border border-[#6D4C41]"
-                    />
-                    <p class="text-sm text-[#6D4C41]">
-                        AI-generated visualization of a significant narrative moment.
-                    </p>
-                </div>
-            {% endfor %}
-        </div>
-
-    {% else %}
-
-        <!-- NO VISUALS MESSAGE -->
-        <p class="text-[#6D4C41] italic mb-6">
-            No AI visual summaries are available for this book yet.
-        </p>
-
-    {% endif %}
-
-    <!-- BACK LINK -->
-    <a href="/book/{{ book.id }}"
-       class="inline-block mt-10 text-[#6D4C41] hover:text-[#3E2723]">
-        ← Back to Book
-    </a>
+<p class="text-sm text-[#6D4C41]">
+Visuals are pre-generated using AI models for reliability.
+</p>
 
 </div>
 
-<!-- AI VISUAL JS -->
+<!-- VISUAL CONTAINER -->
+<div id="aiVisualContainer"
+class="hidden mb-6 relative w-full max-w-2xl mx-auto h-72 overflow-hidden flex items-center justify-center">
+
+<!-- LOADER -->
+<div id="aiVisualLoader"
+class="absolute inset-0 flex items-center justify-center bg-[#FAF7F2] rounded-xl">
+
+<div class="w-10 h-10 border-4 border-[#6D4C41] border-t-transparent rounded-full animate-spin"></div>
+
+</div>
+
+<!-- IMAGE -->
+<img
+id="aiVisualImage"
+src=""
+alt="AI generated visual interpretation"
+class="w-full h-72 object-contain rounded-xl shadow-lg bg-[#EFE6DC] transition-opacity duration-500 opacity-0 hidden"
+/>
+
+</div>
+
+<!-- CAPTION -->
+<p id="aiVisualCaption"
+class="mt-4 mb-10 text-sm italic text-[#6D4C41] text-center">
+</p>
+
+<!-- VISUAL GRID -->
+<div id="visualGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+{% for image in visuals %}
+
+<div class="bg-[#FAF7F2] rounded-2xl p-4 shadow-lg">
+
+<img
+src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
+data-visual-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
+alt="AI generated visual"
+class="w-full h-64 object-cover rounded-lg mb-3 border border-[#6D4C41]"
+/>
+
+<p class="text-sm text-[#6D4C41]">
+AI-generated visualization of a significant narrative moment.
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p class="text-[#6D4C41] italic mb-6">
+No AI visual summaries are available for this book yet.
+</p>
+
+{% endif %}
+
+<!-- BACK LINK -->
+<a href="/book/{{ book.id }}"
+class="inline-block mt-10 text-[#6D4C41] hover:text-[#3E2723] font-medium">
+← Back to Book
+</a>
+
+</div>
+
 <script src="{{ url_for('static', filename='js/ai_visual.js') }}"></script>
 
 </body>
