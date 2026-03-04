@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    /* =========================
-       SEARCH FUNCTIONALITY
-    ========================= */
+    // SEARCH FUNCTIONALITY
 
     const searchInput = document.getElementById("searchInput");
     const bookCards = document.querySelectorAll(".book-card");
@@ -23,9 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    /* =========================
-       FILTER BUTTON FUNCTIONALITY
-    ========================= */
+    // FILTER FUNCTIONALITY
 
     const filterButtons = document.querySelectorAll(".filter-btn");
 
@@ -42,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const category = card.dataset.category;
                 const region = card.dataset.region;
                 const copyright = card.dataset.copyright;
+                const department = card.dataset.department;
 
                 let show = false;
 
@@ -50,6 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (filter === "india" && region === "india") show = true;
                 if (filter === "public" && copyright === "public") show = true;
                 if (filter === "copyrighted" && copyright === "copyrighted") show = true;
+                if (filter === "academic" && category === "academic") show = true;
+                if (filter === "cse" && department === "cse") show = true;
+                if (filter === "ece" && department === "ece") show = true;
+                if (filter === "mech" && department === "mech") show = true;
 
                 card.style.display = show ? "flex" : "none";
             });

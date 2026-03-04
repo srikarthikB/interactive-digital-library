@@ -12,7 +12,8 @@
     "description": "An English translation of the Mahabharata by M. N. Dutt.",
     "cover": "mahabharata.jpg",
     "archive_link": "https://archive.org/details/mahabharata-mn-dutt-vol-6-of-7/Mahabharata%20MN%20Dutt%20Vol%201%20of%207/page/n1/mode/2up",
-    "slug": "mahabharata"
+    "slug": "mahabharata",
+    "department": "general"
   },
   {
     "id": 2,
@@ -27,7 +28,8 @@
     "description": "The Ramayana translated by Hari Prasad Shastri (1952).",
     "cover": "ramayana.jpg",
     "archive_link": "https://archive.org/stream/ssvm_ramayana-of-valmiki-translated-by-hari-prasad-shastri-english-1952",
-    "slug": "ramayana"
+    "slug": "ramayana",
+    "department": "general"
   },
   {
     "id": 3,
@@ -42,7 +44,8 @@
     "description": "A fantasy novel about a young wizard.",
     "cover": "harry_potter.jpg",
     "archive_link": null,
-    "slug": "harry-potter"
+    "slug": "harry-potter",
+    "department": "general"
   },
   {
     "id": 4,
@@ -57,7 +60,8 @@
     "description": "An ancient Greek epic poem attributed to Homer.",
     "cover": "iliad.jpg",
     "archive_link": "https://archive.org/embed/iliadofhomer0000home_y1a4",
-    "slug": "the-iliad"
+    "slug": "the-iliad",
+    "department": "general"
   },
   {
     "id": 5,
@@ -72,7 +76,8 @@
     "description": "An ancient Greek epic poem attributed to Homer.",
     "cover": "odyssey.jpg",
     "archive_link": "https://archive.org/embed/pdfy-T2WaiIPwOMJF1pR3",
-    "slug": "the-odyssey"
+    "slug": "the-odyssey",
+    "department": "general"
   },
   {
     "id": 6,
@@ -87,7 +92,8 @@
     "description": "A tragedy play by William Shakespeare.",
     "cover": "hamlet.jpg",
     "archive_link": "https://archive.org/embed/shakespeareshaml01shak",
-    "slug": "hamlet"
+    "slug": "hamlet",
+    "department": "general"
   },
   {
     "id": 7,
@@ -102,7 +108,8 @@
     "description": "A thriller novel by Chetan Bhagat.",
     "cover": "the_girl_in_room_105.jpg",
     "archive_link": null,
-    "slug": "the-girl-in-room-105"
+    "slug": "the-girl-in-room-105",
+    "department": "general"
   },
   {
     "id": 8,
@@ -117,7 +124,8 @@
     "description": "A non-fiction work on the Indian Constitution.",
     "cover": "indian_constitution.jpg",
     "archive_link": "https://archive.org/embed/in.ernet.dli.2015.54080",
-    "slug": "indian-constitution"
+    "slug": "indian-constitution",
+    "department": "general"
   },
   {
     "id": 9,
@@ -132,7 +140,8 @@
     "description": "A romance novel by Colleen Hoover.",
     "cover": "regretting_you.jpg",
     "archive_link": null,
-    "slug": "regretting-you"
+    "slug": "regretting-you",
+    "department": "general"
   },
   {
     "id": 10,
@@ -147,7 +156,8 @@
     "description": "A fiction novel by Chetan Bhagat.",
     "cover": "five_point_someone.jpg",
     "archive_link": null,
-    "slug": "five-point-someone"
+    "slug": "five-point-someone",
+    "department": "general"
   },
   {
     "id": 11,
@@ -162,7 +172,8 @@
     "description": "A horror novel by Shirley Jackson.",
     "cover": "the_haunting_of_hill_house.jpg",
     "archive_link": null,
-    "slug": "the-haunting-of-hill-house"
+    "slug": "the-haunting-of-hill-house",
+    "department": "general"
   },
   {
     "id": 12,
@@ -177,6 +188,103 @@
     "description": "An autobiography by Guenther Steiner.",
     "cover": "surviving_to_drive.jpg",
     "archive_link": null,
-    "slug": "surviving-to-drive"
+    "slug": "surviving-to-drive",
+    "department": "general"
+  },
+  {
+    "id": 13,
+    "title": "Introduction to Algorithms",
+    "author": "Thomas H. Cormen",
+    "genre": "Computer Science",
+    "era": "Modern",
+    "status": "Copyrighted",
+    "category": "academic",
+    "region": "west",
+    "copyright": "copyrighted",
+    "description": "A comprehensive textbook covering algorithms, data structures, and computational complexity.",
+    "cover": "introduction_to_algorithms.jpg",
+    "archive_link": null,
+    "slug": "introduction-to-algorithms",
+    "department": "cse"
+  },
+  {
+    "id": 14,
+    "title": "Computer Networks (Tanenbaum)",
+    "author": "Andrew S. Tanenbaum",
+    "genre": "Computer Science",
+    "era": "Modern",
+    "status": "Copyrighted",
+    "category": "academic",
+    "region": "west",
+    "copyright": "copyrighted",
+    "description": "A comprehensive textbook covering computer networks.",
+    "cover": "computer_networks_tanenbaum.jpg",
+    "archive_link": null,
+    "slug": "computer-networks-tanenbaum",
+    "department": "cse"
+  },
+  {
+    "id": 15,
+    "title": "Signals and Systems",
+    "author": "Alan V. Oppenheim",
+    "genre": "Electronics and Communication",
+    "era": "Modern",
+    "status": "Copyrighted",
+    "category": "academic",
+    "region": "west",
+    "copyright": "copyrighted",
+    "description": "A comprehensive textbook covering signals and systems.",
+    "cover": "signals_and_systems_oppenheim.jpg",
+    "archive_link": null,
+    "slug": "signals-and-systems-oppenheim",
+    "department": "ece"
+  },
+  {
+    "id": 16,
+    "title": "Digital Electronics",
+    "author": "Ala n V. Oppenheim",
+    "genre": "Electronics and Communication",
+    "era": "Modern",
+    "status": "Copyrighted",
+    "category": "academic",
+    "region": "west",
+    "copyright": "copyrighted",
+    "description": "A comprehensive textbook covering digital electronics.",
+    "cover": "digital_electronics_oppenheim.jpg",
+    "archive_link": null,
+    "slug": "digital-electronics-oppenheim",
+    "department": "ece"
+  },
+  {
+    "id": 17,
+    "title": "Engineering Mechanics",
+    "author": "R.K. Rajput",
+    "genre": "Mechanical Engineering",
+    "era": "Modern",
+    "status": "Copyrighted",
+    "category": "academic",
+    "region": "west",
+    "copyright": "copyrighted",
+    "description": "A comprehensive textbook covering engineering mechanics.",
+    "cover": "engineering_mechanics_rajput.jpg",
+    "archive_link": null,
+    "slug": "engineering-mechanics-rajput",
+    "department": "mech"
+  },
+  {
+    "id": 18,
+    "title": "Thermodynamics",
+    "author": "P.K. Nag",
+    "genre": "Mechanical Engineering",
+    "era": "Modern",
+    "status": "Copyrighted",
+    "category": "academic",
+    "region": "west",
+    "copyright": "copyrighted",
+    "description": "A comprehensive textbook covering thermodynamics.",
+    "cover": "thermodynamics_nag.jpg",
+    "archive_link": null,
+    "slug": "thermodynamics-nag",
+    "department": "mech"
   }
 ]

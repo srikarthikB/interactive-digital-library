@@ -80,7 +80,10 @@
                 <button class="filter-btn" data-filter="public">Public Domain</button>
                 <button class="filter-btn" data-filter="copyrighted">Copyrighted</button>
                 <button class="filter-btn" data-filter="india">Indian</button>
-
+                <button class="filter-btn" data-filter="cse">CSE</button>
+                <button class="filter-btn" data-filter="ece">ECE</button>
+                <button class="filter-btn" data-filter="mech">Mechanical</button>
+                <button class="filter-btn" data-filter="academic">Academic</button>
             </div>
 
             <!-- BOOK GRID -->
@@ -93,6 +96,7 @@
                             flex flex-col items-center"
                         data-title="{{ book.title | lower }}"
                         data-category="{{ book.category }}"
+                        data-department="{{ book.department }}"
                         data-region="{{ book.region }}"
                         data-copyright="{{ book.copyright }}">
 
