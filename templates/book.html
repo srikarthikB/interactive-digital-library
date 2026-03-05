@@ -74,7 +74,7 @@ AI Summary
 </p>
 
 <button
-onclick="document.getElementById('full-summary').classList.toggle('hidden')"
+onclick="toggleSummary(this)"
 class="mt-3 text-sm text-[#6D4C41] hover:text-[#3E2723] underline">
 Read full AI summary
 </button>
@@ -148,42 +148,23 @@ class="mt-4 text-sm text-[#4E342E] hidden"></p>
 
 </div>
 
-<!-- AUDIO -->
-<div class="mb-10">
-
-<button
-onclick="document.getElementById('audio-player').classList.toggle('hidden')"
-class="flex items-center gap-2 text-sm text-[#6D4C41] hover:text-[#3E2723]">
-
-🔊 Listen to audio version
-
-</button>
-
-<div id="audio-player" class="hidden mt-3">
-
-<audio controls class="w-full">
-<source src="{{ url_for('static', filename='audio/' + book.slug + '.mp3') }}" type="audio/mpeg">
-</audio>
-
-</div>
-
-</div>
-
-
 <!-- ACTION SECTION -->
-<div class="mt-8">
+<div class="mt-8 flex flex-col items-center gap-5">
 
 {% if book.archive_link %}
 
-<div class="flex flex-wrap gap-4">
-
+<!-- READ BOOK BUTTON -->
 <a
 href="{{ book.archive_link }}"
 target="_blank"
-class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
-font-semibold hover:bg-[#5D4037] transition">
+class="px-8 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2]
+font-semibold hover:bg-[#5D4037]
+transition transform hover:scale-105">
 Read Book
 </a>
+
+<!-- SECOND ROW BUTTONS -->
+<div class="flex gap-4">
 
 <a
 href="/book/{{ book.id }}/visuals"
@@ -192,6 +173,20 @@ hover:bg-[#BCAAA4] transition font-semibold">
 View AI Visual Summary
 </a>
 
+<button
+onclick="document.getElementById('audio-player').classList.toggle('hidden')"
+class="px-6 py-3 rounded-xl bg-[#D7CCC8] text-[#3E2723]
+hover:bg-[#BCAAA4] transition font-semibold">
+🔊 Listen to audio version
+</button>
+
+</div>
+
+<!-- AUDIO PLAYER -->
+<div id="audio-player" class="hidden mt-3 w-full max-w-md">
+<audio controls class="w-full">
+<source src="{{ url_for('static', filename='audio/' + book.slug + '.mp3') }}" type="audio/mpeg">
+</audio>
 </div>
 
 {% else %}
@@ -262,6 +257,20 @@ answerBox.innerText = answer;
 answerBox.classList.remove("hidden");
 
 }, 1200);
+
+}
+
+function toggleSummary(btn){
+
+const summary = document.getElementById("full-summary");
+
+summary.classList.toggle("hidden");
+
+if(summary.classList.contains("hidden")){
+btn.innerText = "Read full AI summary";
+}else{
+btn.innerText = "Hide full AI summary";
+}
 
 }
 

@@ -14,7 +14,8 @@ def load_summaries():
 @app.route("/")
 def home():
     books = load_books()
-    return render_template("home.html", books=books)   
+    summaries = load_summaries()
+    return render_template("home.html", books=books, summaries=summaries)   
 
 @app.route("/book/<int:book_id>")
 def book_detail(book_id):

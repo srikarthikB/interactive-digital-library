@@ -121,8 +121,8 @@ data-department="{{ book.department }}"
 data-region="{{ book.region }}"
 data-copyright="{{ book.copyright }}">
 
-<!-- STATUS BADGE -->
-<div class="mb-3">
+<!-- STATUS BADGES -->
+<div class="mb-3 flex flex-col items-center gap-1">
 
 {% if book.copyright == "public" %}
 
@@ -138,6 +138,13 @@ bg-red-100 text-red-800">
 Copyrighted Content
 </span>
 
+{% endif %}
+
+{% if book.slug in summaries %}
+<span class="inline-block text-xs px-3 py-1 rounded-full
+bg-yellow-100 text-yellow-800">
+AI Summary Available
+</span>
 {% endif %}
 
 </div>
