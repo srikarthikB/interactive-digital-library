@@ -105,6 +105,8 @@ AI-generated summaries are intended as pre-reading aids and may not fully
 capture the depth or nuances of the original text.
 </p>
 
+{% if summary %}
+
 <!-- ASK AI ABOUT BOOK -->
 <div class="mt-10 p-6 rounded-xl bg-[#EFE6DC] border border-[#D7CCC8]">
 
@@ -147,6 +149,8 @@ AI is analyzing the book...
 class="mt-4 text-sm text-[#4E342E] hidden"></p>
 
 </div>
+
+{% endif %}
 
 <!-- ACTION SECTION -->
 <div class="mt-8 flex flex-col items-center gap-5">
