@@ -47,7 +47,7 @@ def load_books():
 
 
 def load_summaries():
-    with open("data/summaries.json", "r", encoding="utf-8") as f:
+    with open("summaries.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 
