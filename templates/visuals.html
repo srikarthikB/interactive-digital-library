@@ -4,136 +4,451 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Visual Summary</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-body{
-font-family: Georgia, "Times New Roman", serif;
+:root {
+    --wood-dark:#2A1506; --wood-warm:#7A4527; --shelf:#8B4513;
+    --paper:#F5EDD6; --paper-warm:#EDE0C4; --paper-dark:#D8C9A3;
+    --ink:#2C1A0E; --ink-soft:#5C3317; --gold:#C9922E; --gold-light:#E8B84B;
 }
-</style>
+*,*::before,*::after{box-sizing:border-box;}
+body {
+    font-family:'Lora',Georgia,serif;
+    background-color:var(--wood-dark);
+    background-image:
+        repeating-linear-gradient(94deg,transparent,transparent 52px,rgba(0,0,0,0.06) 52px,rgba(0,0,0,0.06) 53px),
+        linear-gradient(160deg,#2A1506 0%,#3B1C0A 40%,#2A1506 100%);
+    min-height:100vh; padding:2rem;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes cardReveal{from{opacity:0;transform:scale(.96) translateY(12px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.fade-up{animation:fadeUp .6s ease both;}
 
+.page-card {
+    background:linear-gradient(165deg,var(--paper) 0%,var(--paper-warm) 100%);
+    border-radius:24px; padding:3rem;
+    max-width:1100px; margin:0 auto;
+    box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(201,146,46,0.15);
+    color:var(--ink); position:relative; overflow:hidden;
+}
+.page-card::before {
+    content:''; position:absolute;top:0;left:0;right:0;height:8px;
+    background:linear-gradient(to right,var(--wood-warm),var(--gold),var(--wood-warm));
+}
+
+h1 { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; margin-bottom:.75rem; }
+p  { color:var(--ink-soft); line-height:1.8; }
+
+.ornament-line { width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:1.5rem 0; }
+
+/* Show visuals button */
+.btn-primary {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 28px; border-radius:10px;
+    background:linear-gradient(135deg,var(--wood-warm),var(--gold));
+    color:var(--paper); font-family:'Playfair Display',serif;
+    font-weight:700; font-size:15px;
+    border:1px solid var(--gold); cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.1);
+    transition:all .2s;
+}
+.btn-primary:hover { filter:brightness(1.1); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+
+/* Spinner */
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner {
+    width:36px; height:36px;
+    border:3px solid rgba(139,69,19,.2);
+    border-top-color:var(--gold);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:auto;
+}
+
+/* Visual image reveal */
+@keyframes imgReveal{from{opacity:0;transform:scale(.97);}to{opacity:1;transform:scale(1);}}
+#aiVisualImage.visible { animation:imgReveal .7s ease both; }
+
+/* Visual grid cards */
+.visual-card {
+    background:linear-gradient(165deg,var(--paper),var(--paper-dark));
+    border:1px solid rgba(139,69,19,.2);
+    border-radius:16px; padding:12px;
+    box-shadow:0 4px 18px rgba(0,0,0,.14);
+    animation:cardReveal .5s ease both;
+    transition:transform .25s ease, box-shadow .25s ease;
+}
+.visual-card:hover {
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:0 12px 32px rgba(0,0,0,.22);
+}
+.visual-card img {
+    width:100%; height:220px; object-fit:cover;
+    border-radius:10px;
+    border:1px solid rgba(139,69,19,.2);
+}
+.visual-caption {
+    margin-top:8px; font-size:12px; font-style:italic;
+    color:var(--ink-soft); text-align:center; font-family:'Lora',serif;
+}
+
+/* ── AI Image Generation section ── */
+@keyframes generatingPulse {
+    0%,100% { opacity:.5; } 50% { opacity:1; }
+}
+@keyframes frameReveal {
+    from { opacity:0; transform:translateY(20px) scale(.97); }
+    to   { opacity:1; transform:translateY(0)    scale(1);   }
+}
+
+/* Parchment frame around the generated image */
+.ai-frame {
+    display: none;                /* shown by JS */
+    position: relative;
+    max-width: 680px;
+    margin: 0 auto 2rem;
+    animation: frameReveal .7s ease both;
+}
+.ai-frame-inner {
+    background: linear-gradient(160deg, var(--paper) 0%, var(--paper-dark) 100%);
+    border-radius: 4px;
+    padding: 16px;
+    box-shadow:
+        0 0 0 1px rgba(139,69,19,.3),
+        0 0 0 6px var(--paper-warm),
+        0 0 0 8px rgba(139,69,19,.25),
+        0 16px 48px rgba(0,0,0,.5);
+}
+.ai-frame-inner img {
+    width: 100%;
+    border-radius: 2px;
+    display: block;
+    border: 1px solid rgba(139,69,19,.2);
+}
+.ai-frame-label {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: .75;
+    margin-top: 12px;
+    font-family: 'Lora', serif;
+}
+
+/* Generate button — secondary style */
+.btn-generate {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 24px; border-radius: 10px;
+    background: var(--paper-dark);
+    color: var(--ink);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 14px;
+    border: 1px solid rgba(139,69,19,.35); cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    transition: all .2s;
+}
+.btn-generate:hover {
+    background: var(--paper-warm);
+    border-color: var(--gold);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.2);
+}
+.btn-generate:disabled {
+    opacity: .6; cursor: not-allowed; transform: none;
+}
+
+/* Generating status text */
+.generating-status {
+    display: none;
+    font-size: 13px; font-style: italic;
+    color: var(--ink-soft);
+    animation: generatingPulse 1.6s ease infinite;
+}
+
+/* Error box */
+.gen-error {
+    display: none;
+    font-size: 13px; color: #b91c1c;
+    background: rgba(239,68,68,.07);
+    border: 1px solid rgba(239,68,68,.25);
+    border-radius: 8px; padding: .6rem 1rem;
+    margin-top: .75rem;
+}
+
+.back-link {
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--wood-warm); font-size:14px; font-weight:600;
+    transition:color .2s, gap .2s; text-decoration:none;
+}
+.back-link:hover{color:var(--gold);gap:10px;}
+</style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-[#5D4037] via-[#EFEBE9] to-[#5D4037] p-8">
+<body>
+<div class="page-card fade-up">
 
-<div class="max-w-6xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-10 text-[#3E2723] shadow-2xl">
+    <!-- Breadcrumb -->
+    <nav style="font-size:13px;color:var(--ink-soft);margin-bottom:1.5rem;" class="fade-up">
+        <a href="/" style="color:var(--wood-warm);text-decoration:underline;text-underline-offset:3px;">Home</a>
+        <span style="margin:0 8px;opacity:.5;">→</span>
+        <a href="/book/{{ book.id }}" style="color:var(--wood-warm);text-decoration:underline;text-underline-offset:3px;">
+            {{ book.title }}
+        </a>
+        <span style="margin:0 8px;opacity:.5;">→</span>
+        <span style="font-weight:600;color:var(--ink);">Visuals</span>
+    </nav>
 
-<!-- BREADCRUMB -->
-<nav class="text-sm text-[#6D4C41] mb-6">
-<a href="/" class="hover:text-[#3E2723] underline">Home</a>
-<span class="mx-2">→</span>
-<a href="/book/{{ book.id }}" class="hover:text-[#3E2723] underline">
-{{ book.title }}
-</a>
-<span class="mx-2">→</span>
-<span class="text-[#3E2723] font-semibold">Visuals</span>
-</nav>
+    <!-- Title -->
+    <div class="fade-up" style="animation-delay:.05s;">
+        <p class="text-xs tracking-[.25em] uppercase" style="color:var(--gold);opacity:.7;margin-bottom:.4rem;">
+            AI Visual Summary
+        </p>
+        <h1>{{ book.title }}</h1>
+    </div>
 
-<!-- TITLE -->
-<h1 class="text-3xl font-bold mb-4">
-AI Visual Summary
-</h1>
+    <p class="fade-up" style="animation-delay:.1s;max-width:640px;margin-bottom:.5rem;">
+        These AI-generated visuals represent key scenes and narrative moments from the book.
+        They are intended as visual aids to support understanding, not as replacements for
+        the original text.
+    </p>
+    <p class="fade-up" style="animation-delay:.12s;font-size:12px;font-style:italic;margin-bottom:0;">
+        AI-generated visuals are interpretive representations and may vary from the
+        original narrative descriptions.
+    </p>
 
-<!-- DESCRIPTION -->
-<p class="text-[#4E342E] mb-4 max-w-3xl leading-relaxed">
-These AI-generated visuals represent key scenes and narrative moments from the book.
-They are intended as visual aids to support understanding, not as replacements for
-the original text.
-</p>
+    <div class="ornament-line fade-up" style="animation-delay:.14s;"></div>
 
-<p class="text-xs italic text-[#6D4C41] mb-10">
-AI-generated visuals are interpretive representations and may vary from the
-original narrative descriptions.
-</p>
+    <!-- Hidden book data for JS — no Jinja in script tags -->
+    <input type="hidden" id="bookSlug"        value="{{ book.slug }}">
+    <input type="hidden" id="bookTitle"       value="{{ book.title }}">
+    <input type="hidden" id="bookDescription" value="{{ book.description }}">
 
-{% if visuals|length > 0 %}
+    <!-- ══ AI IMAGE GENERATION SECTION ══════════════════════════════════ -->
+    <div class="fade-up" style="animation-delay:.16s;
+         background:rgba(139,69,19,0.06);border:1px solid rgba(139,69,19,0.18);
+         border-radius:16px;padding:1.5rem;margin-bottom:2rem;">
 
-<!-- BUTTON + NOTE -->
-<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;
+                   margin-bottom:.4rem;color:var(--ink);">
+            🎨 Generate AI Visual
+        </h3>
+        <p style="font-size:13px;margin-bottom:1rem;">
+            Generate a unique AI illustration for this book using Stable Diffusion.
+            Once generated, the image is saved and reused on future visits.
+        </p>
 
-<button
-id="generateVisualBtn"
-class="px-6 py-3 rounded-xl bg-[#6D4C41] text-[#FAF7F2] font-semibold hover:bg-[#5D4037] transition">
-Show AI Visual Interpretation
-</button>
+        <!-- Button row -->
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px;">
+            <button id="generateImageBtn" class="btn-generate">
+                <svg width="16" height="16" fill="none" stroke="currentColor"
+                     stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77
+                             l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Generate AI Visual
+            </button>
+            <span class="generating-status" id="generatingStatus">
+                ✦ Painting your illustration… this may take 20–40 seconds
+            </span>
+        </div>
 
-<p class="text-sm text-[#6D4C41]">
-Visuals are pre-generated using AI models for reliability.
-</p>
+        <!-- Error display -->
+        <p class="gen-error" id="genError"></p>
 
-</div>
+        <!-- Generated image frame — revealed by JS -->
+        <div class="ai-frame" id="aiGeneratedFrame">
+            <div class="ai-frame-inner">
+                <img id="aiGeneratedImage" src="" alt="AI generated illustration">
+            </div>
+            <p class="ai-frame-label">
+                AI-generated illustration · {{ book.title }}
+            </p>
+        </div>
 
-<!-- VISUAL CONTAINER -->
-<div id="aiVisualContainer"
-class="hidden mb-6 relative w-full max-w-2xl mx-auto h-72 overflow-hidden flex items-center justify-center">
+    </div>
+    <!-- ══ END AI IMAGE GENERATION SECTION ══════════════════════════════ -->
 
-<!-- LOADER -->
-<div id="aiVisualLoader"
-class="absolute inset-0 flex items-center justify-center bg-[#FAF7F2] rounded-xl">
+    {% if visuals|length > 0 %}
 
-<div class="w-10 h-10 border-4 border-[#6D4C41] border-t-transparent rounded-full animate-spin"></div>
+    <!-- Hidden source list — read by JS only, never shown -->
+    <div id="visualSources" style="display:none;">
+        {% for image in visuals %}
+        <span data-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"></span>
+        {% endfor %}
+    </div>
 
-</div>
+    <!-- CTA + Note -->
+    <div class="fade-up" style="animation-delay:.18s;display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:2rem;">
+        <button id="showVisualBtn" class="btn-primary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <path d="M3 9l4-4 4 4 4-6 4 6"/>
+            </svg>
+            Show AI Visual Interpretation
+        </button>
+        <p style="font-size:13px;font-style:italic;">
+            Visuals are pre-generated using AI models for reliability.
+        </p>
+    </div>
 
-<!-- IMAGE -->
-<img
-id="aiVisualImage"
-src=""
-alt="AI generated visual interpretation"
-class="w-full h-72 object-contain rounded-xl shadow-lg bg-[#EFE6DC]
-       opacity-0 hidden
-       transition-opacity duration-1500 ease-in-out"
-/>
-</div>
+    <!-- Single visual panel — only one image ever shows here -->
+    <div id="aiVisualContainer" style="display:none;margin-bottom:2rem;">
 
-<!-- CAPTION -->
-<p id="aiVisualCaption"
-class="mt-4 mb-10 text-sm italic text-[#6D4C41] text-center
-       opacity-0 transition-opacity duration-2000 ease-in-out">
-</p>
+        <!-- Loader -->
+        <div id="aiVisualLoader" style="padding:2.5rem;text-align:center;">
+            <div class="spinner"></div>
+            <p style="margin-top:1rem;font-size:13px;font-style:italic;">
+                Retrieving visual interpretation…
+            </p>
+        </div>
 
-<!-- VISUAL GRID -->
-<div id="visualGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <!-- Single image — centred, fixed size -->
+        <div style="display:none;text-align:center;" id="aiVisualWrap">
+            <img id="aiVisualImage" src="" alt="AI generated visual interpretation"
+                 style="width:100%;max-width:620px;height:360px;
+                        object-fit:cover;border-radius:16px;
+                        border:1px solid rgba(139,69,19,.25);
+                        background:var(--paper-dark);
+                        box-shadow:0 8px 32px rgba(0,0,0,.25);
+                        display:inline-block;">
+            <p id="aiVisualCaption"
+               style="margin-top:12px;font-size:13px;font-style:italic;color:var(--ink-soft);">
+                AI-generated visualization of a significant narrative moment.
+            </p>
+        </div>
 
-{% for image in visuals %}
+    </div>
 
-<div class="bg-[#FAF7F2] rounded-2xl p-4 shadow-lg">
+    {% else %}
 
-<img
-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
-data-visual-src="{{ url_for('static', filename='images/visuals/' ~ book.slug ~ '/' ~ image) }}"
-alt="AI generated visual"
-class="w-full h-64 object-cover rounded-lg mb-3 border border-[#6D4C41]"
-/>
+    <p class="fade-up" style="animation-delay:.2s;font-style:italic;">
+        No AI visual summaries are available for this book yet.
+    </p>
 
-<p class="text-sm text-[#6D4C41]">
-AI-generated visualization of a significant narrative moment.
-</p>
+    {% endif %}
 
-</div>
+    <div class="ornament-line" style="margin-top:2rem;"></div>
 
-{% endfor %}
-
-</div>
-
-{% else %}
-
-<p class="text-[#6D4C41] italic mb-6">
-No AI visual summaries are available for this book yet.
-</p>
-
-{% endif %}
-
-<!-- BACK LINK -->
-<a href="/book/{{ book.id }}"
-class="inline-block mt-10 text-[#6D4C41] hover:text-[#3E2723] font-medium">
-← Back to Book
-</a>
+    <a href="/book/{{ book.id }}" class="back-link">← Back to Book</a>
 
 </div>
 
 <script src="{{ url_for('static', filename='js/ai_visual.js') }}"></script>
 
+<script>
+/* ── Staggered card animation delays ──────────────────────────────────────── */
+document.querySelectorAll('.visual-card[data-delay]').forEach(function (card) {
+    card.style.animationDelay = (parseInt(card.dataset.delay) * 0.07) + 's';
+});
+
+/* ── AI Image Generation ───────────────────────────────────────────────────── */
+(function () {
+    var btn        = document.getElementById('generateImageBtn');
+    var statusEl   = document.getElementById('generatingStatus');
+    var errorEl    = document.getElementById('genError');
+    var frame      = document.getElementById('aiGeneratedFrame');
+    var img        = document.getElementById('aiGeneratedImage');
+    var label      = frame ? frame.querySelector('.ai-frame-label') : null;
+
+    var slug        = (document.getElementById('bookSlug')        || {}).value || '';
+    var title       = (document.getElementById('bookTitle')       || {}).value || '';
+    var description = (document.getElementById('bookDescription') || {}).value || '';
+
+    if (!btn) return;
+
+    var currentScene = 0;   // which scene we're on
+    var totalScenes  = 3;   // matches backend TOTAL_SCENES
+    var hasGenerated = false;
+
+    var sceneLabels = [
+        'Scene 1 — Setting & Atmosphere',
+        'Scene 2 — Conflict & Tension',
+        'Scene 3 — Reflection & Symbolism',
+    ];
+
+    function updateButtonLabel() {
+        if (!hasGenerated) {
+            btn.innerHTML = '✦ Generate Scene 1';
+            return;
+        }
+        var next = (currentScene + 1) % totalScenes;
+        btn.innerHTML = 'Next → ' + sceneLabels[next];
+    }
+
+    // Set initial label
+    updateButtonLabel();
+
+    btn.addEventListener('click', function () {
+        // Reset error
+        errorEl.style.display = 'none';
+        errorEl.textContent   = '';
+
+        // Show loading state
+        btn.disabled           = true;
+        statusEl.style.display = 'inline';
+        statusEl.textContent   = '✦ Painting ' + sceneLabels[hasGenerated ? (currentScene + 1) % totalScenes : 0] + '… this may take 20–40 seconds';
+
+        var requestedScene = hasGenerated ? (currentScene + 1) % totalScenes : 0;
+
+        fetch('/generate-image', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+                slug:        slug,
+                title:       title,
+                description: description,
+                scene_index: requestedScene
+            })
+        })
+        .then(function (res) {
+            if (!res.ok) {
+                return res.json().then(function (d) {
+                    throw new Error(d.error || 'Server error ' + res.status);
+                });
+            }
+            return res.json();
+        })
+        .then(function (data) {
+            // Update state
+            currentScene = data.scene_index;
+            totalScenes  = data.total_scenes || totalScenes;
+            hasGenerated = true;
+
+            // Hide loading
+            statusEl.style.display = 'none';
+            btn.disabled           = false;
+
+            // Crossfade: fade out old image, swap, fade in
+            img.style.transition = 'opacity 0.3s ease';
+            img.style.opacity    = '0';
+
+            setTimeout(function () {
+                img.src = data.image_url + '?t=' + Date.now(); // bust cache for new scenes
+                img.onload = function () {
+                    img.style.opacity = '1';
+                };
+                // Update label
+                if (label) {
+                    label.textContent = sceneLabels[currentScene] + ' · ' + title
+                        + (data.cached ? ' (cached)' : '');
+                }
+                frame.style.display = 'block';
+                frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 320);
+
+            // Update button for next scene
+            updateButtonLabel();
+        })
+        .catch(function (err) {
+            statusEl.style.display = 'none';
+            btn.disabled           = false;
+            errorEl.textContent    = '⚠ ' + (err.message || 'Something went wrong. Please try again.');
+            errorEl.style.display  = 'block';
+        });
+    });
+}());
+</script>
 </body>
 </html>

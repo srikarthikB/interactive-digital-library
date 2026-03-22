@@ -1,153 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>College Library Integration</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-body{
-font-family: Georgia, "Times New Roman", serif;
+:root {
+    --wood-dark:#2A1506; --wood-warm:#7A4527; --shelf:#8B4513;
+    --paper:#F5EDD6; --paper-warm:#EDE0C4; --paper-dark:#D8C9A3;
+    --ink:#2C1A0E; --ink-soft:#5C3317; --gold:#C9922E; --gold-light:#E8B84B;
 }
-.dept-btn{
-padding:0.45rem 1.1rem;
-border-radius:9999px;
-background-color:#FAF7F2;
-color:#5D4037;
-font-size:0.85rem;
-border:1px solid #D7CCC8;
-transition:all 0.2s ease;
+*,*::before,*::after{box-sizing:border-box;}
+body {
+    font-family:'Lora',Georgia,serif;
+    background-color:var(--wood-dark);
+    background-image:
+        repeating-linear-gradient(94deg,transparent,transparent 52px,rgba(0,0,0,0.06) 52px,rgba(0,0,0,0.06) 53px),
+        linear-gradient(160deg,#2A1506 0%,#3B1C0A 40%,#2A1506 100%);
+    min-height:100vh; padding:2rem;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.fade-up{animation:fadeUp .6s ease both;}
+
+.page-card {
+    background:linear-gradient(165deg,var(--paper) 0%,var(--paper-warm) 100%);
+    border-radius:24px; padding:3rem;
+    max-width:1000px; margin:0 auto;
+    box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(201,146,46,0.15);
+    color:var(--ink); position:relative; overflow:hidden;
+}
+.page-card::before {
+    content:''; position:absolute;top:0;left:0;right:0;height:8px;
+    background:linear-gradient(to right,var(--wood-warm),var(--gold),var(--wood-warm));
 }
 
-.dept-btn:hover{
-background-color:#D7CCC8;
+h1 { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; margin-bottom:1rem; }
+p  { color:var(--ink-soft); line-height:1.8; }
+
+.ornament-line { width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:1.5rem 0; }
+
+/* Dept filter buttons */
+.dept-btn {
+    padding:8px 20px; border-radius:9999px;
+    font-family:'Lora',serif; font-size:13px;
+    background:rgba(139,69,19,0.08); color:var(--ink-soft);
+    border:1px solid rgba(139,69,19,0.22); cursor:pointer;
+    transition:all .2s ease; letter-spacing:.02em;
+}
+.dept-btn:hover {
+    background:rgba(201,146,46,0.15); border-color:var(--gold);
+    color:var(--wood-warm); transform:translateY(-1px);
+}
+.dept-btn.active {
+    background:linear-gradient(135deg,var(--wood-warm),var(--gold));
+    color:var(--paper); border-color:var(--gold);
+    box-shadow:0 3px 12px rgba(201,146,46,0.3);
 }
 
-.dept-btn.active{
-background-color:#6D4C41;
-color:#FAF7F2;
+/* Book cards */
+.library-book {
+    background:linear-gradient(160deg,var(--paper) 0%,var(--paper-dark) 100%);
+    border:1px solid rgba(139,69,19,0.22);
+    border-radius:14px; padding:1.25rem;
+    position:relative; overflow:hidden;
+    box-shadow:0 4px 16px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.5);
+    transition:transform .25s ease, box-shadow .25s ease;
+    animation:cardIn .5s ease both;
 }
+.library-book::before {
+    content:''; position:absolute;top:0;left:0;bottom:0;width:4px;
+    background:linear-gradient(to bottom,var(--wood-warm),var(--gold),var(--wood-warm));
+    border-radius:3px 0 0 3px;
+}
+.library-book:hover {
+    transform:translateY(-4px);
+    box-shadow:0 12px 28px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+.library-book:hover::before {
+    background:linear-gradient(to bottom,var(--gold),var(--gold-light),var(--gold));
+}
+.book-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--ink); }
+.book-author { font-size:.85rem; color:var(--ink-soft); margin-top:.2rem; }
+.book-dept   { font-size:.75rem; color:var(--gold); margin-top:.5rem; letter-spacing:.04em; text-transform:uppercase; }
+
+.back-link {
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--wood-warm);font-size:14px;font-weight:600;
+    transition:color .2s,gap .2s;text-decoration:none;
+}
+.back-link:hover{color:var(--gold);gap:10px;}
 </style>
-
 </head>
+<body>
 
+<div class="page-card fade-up">
 
-<body class="min-h-screen bg-gradient-to-br
-from-[#5D4037] via-[#EFEBE9] to-[#5D4037] p-8">
+    <!-- Header -->
+    <div class="fade-up" style="animation-delay:.05s;">
+        <p class="text-xs tracking-[.25em] uppercase" style="color:var(--gold);opacity:.7;margin-bottom:.5rem;">
+            Interactive Digital Library
+        </p>
+        <h1>College Library Catalog</h1>
+    </div>
 
-
-<div class="max-w-5xl mx-auto bg-[#FAF7F2]/95 rounded-3xl p-10 shadow-2xl text-[#3E2723]">
-
-
-<h1 class="text-4xl font-bold mb-6">
-College Library Catalog
-</h1>
-
-
-<p class="text-[#4E342E] mb-10 leading-relaxed">
-This section demonstrates how the Interactive Digital Library platform
-can integrate with a college library database to display available
-academic textbooks across different engineering departments.
-</p>
-
-<div class="bg-[#EFE6DC] border border-[#D7CCC8] rounded-xl p-4 mb-10 shadow-sm">
-
-    <p class="text-sm text-[#5D4037] mb-3 font-semibold">
-    Filter by Department
+    <p class="fade-up" style="animation-delay:.1s;margin-bottom:1.5rem;">
+        This section demonstrates how the Interactive Digital Library platform
+        can integrate with a college library database to display available
+        academic textbooks across different engineering departments.
     </p>
 
-    <div class="flex flex-wrap gap-3">
+    <div class="ornament-line fade-up" style="animation-delay:.12s;"></div>
 
-        <button class="dept-btn active" data-dept="all">
-            All
-        </button>
+    <!-- Department Filters -->
+    <div class="fade-up" style="animation-delay:.15s;background:rgba(139,69,19,0.06);border:1px solid rgba(139,69,19,0.15);border-radius:14px;padding:1.25rem;margin-bottom:2rem;">
+        <p style="font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:.75rem;font-family:'Lora',serif;">
+            Filter by Department
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <button class="dept-btn active" data-dept="all">All</button>
+            <button class="dept-btn" data-dept="cse">CSE</button>
+            <button class="dept-btn" data-dept="ece">ECE</button>
+            <button class="dept-btn" data-dept="mech">Mechanical</button>
+        </div>
+    </div>
 
-        <button class="dept-btn" data-dept="cse">
-            CSE
-        </button>
+    <!-- Book Grid -->
+    <div id="bookGrid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-5 fade-up" style="animation-delay:.2s;">
 
-        <button class="dept-btn" data-dept="ece">
-            ECE
-        </button>
+        {% for book in books %}
+        <div
+            class="library-book"
+            data-department="{{ book.department | lower }}"
+            data-delay="{{ loop.index0 }}">
 
-        <button class="dept-btn" data-dept="mech">
-            Mechanical
-        </button>
+            <p class="book-title">{{ book.title }}</p>
+            <p class="book-author">{{ book.author }}</p>
+            <p class="book-dept">{{ book.department }}</p>
+
+        </div>
+        {% endfor %}
 
     </div>
 
-</div>
+    <div class="ornament-line" style="margin-top:2rem;"></div>
 
-<div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-
-{% for book in books %}
-
-<div
-class="library-book bg-[#EFE6DC] rounded-xl p-5 border border-[#D7CCC8]"
-data-department="{{ book.department | lower }}">
-
-<h2 class="font-semibold text-lg">
-{{ book.title }}
-</h2>
-
-<p class="text-sm text-[#5D4037] mt-1">
-{{ book.author }}
-</p>
-
-<p class="text-xs mt-2 text-[#6D4C41]">
-Department: {{ book.department }}
-</p>
-
-</div>
-
-{% endfor %}
-
-</div>
-
-
-<a href="/" class="inline-block mt-10 text-[#6D4C41] hover:text-[#3E2723]">
-← Back to Home
-</a>
-
+    <a href="/" class="back-link">← Back to Home</a>
 
 </div>
 
 <script>
+const deptBtns = document.querySelectorAll('.dept-btn');
+const libBooks = document.querySelectorAll('.library-book');
 
-const deptButtons = document.querySelectorAll(".dept-btn");
-const books = document.querySelectorAll(".library-book");
-
-deptButtons.forEach(btn => {
-
-btn.addEventListener("click", () => {
-
-deptButtons.forEach(b => b.classList.remove("active"));
-btn.classList.add("active");
-
-const dept = btn.dataset.dept;
-
-books.forEach(book => {
-
-const bookDept = book.dataset.department;
-
-if(dept === "all" || dept === bookDept){
-book.style.display = "block";
-}
-else{
-book.style.display = "none";
-}
-
+// Apply animation delays from data-delay (avoids Jinja in style attrs)
+libBooks.forEach(card => {
+    card.style.animationDelay = `${parseInt(card.dataset.delay) * 0.05}s`;
 });
 
+deptBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        deptBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const dept = btn.dataset.dept;
+        libBooks.forEach((book, i) => {
+            const show = dept === 'all' || book.dataset.department === dept;
+            book.style.display = show ? 'block' : 'none';
+            if(show){
+                book.style.animationDelay = `${i*0.04}s`;
+                book.style.animation = 'none';
+                book.offsetHeight;
+                book.style.animation = '';
+            }
+        });
+    });
 });
-
-});
-
 </script>
-
 </body>
 </html>

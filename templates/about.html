@@ -4,149 +4,193 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About – Interactive Digital Library</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-body{
-font-family: Georgia, "Times New Roman", serif;
+:root {
+    --wood-dark:#2A1506; --wood-mid:#4B2508; --wood-warm:#7A4527;
+    --paper:#F5EDD6; --paper-warm:#EDE0C4; --paper-dark:#D8C9A3;
+    --ink:#2C1A0E; --ink-soft:#5C3317; --gold:#C9922E; --gold-light:#E8B84B;
 }
-</style>
+*,*::before,*::after{box-sizing:border-box;}
+body {
+    font-family:'Lora',Georgia,serif;
+    background-color:var(--wood-dark);
+    background-image:
+        repeating-linear-gradient(94deg,transparent,transparent 52px,rgba(0,0,0,0.06) 52px,rgba(0,0,0,0.06) 53px),
+        linear-gradient(160deg,#2A1506 0%,#3B1C0A 40%,#2A1506 100%);
+    min-height:100vh; padding:2rem;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp .6s ease both;}
 
+.page-card {
+    background:linear-gradient(165deg,var(--paper) 0%,var(--paper-warm) 100%);
+    border-radius:24px;
+    padding:3rem;
+    max-width:860px;
+    margin:0 auto;
+    box-shadow:0 32px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(201,146,46,0.15);
+    color:var(--ink);
+    position:relative;
+    overflow:hidden;
+}
+/* Top binding strip */
+.page-card::before {
+    content:'';
+    position:absolute;top:0;left:0;right:0;height:8px;
+    background:linear-gradient(to right,var(--wood-warm),var(--gold),var(--wood-warm));
+}
+
+.ornament-line {
+    width:100%; height:1px;
+    background:linear-gradient(to right,transparent,var(--gold),transparent);
+    margin:1.5rem 0;
+}
+
+.section-card {
+    background:rgba(139,69,19,0.08);
+    border:1px solid rgba(139,69,19,0.2);
+    border-radius:14px;
+    padding:1.5rem;
+    margin-bottom:1.5rem;
+}
+.section-card-red {
+    background:rgba(239,68,68,0.08);
+    border:1px solid rgba(239,68,68,0.3);
+    border-radius:14px;
+    padding:1.5rem;
+    margin-bottom:2rem;
+}
+
+h1 { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; margin-bottom:1rem; color:var(--ink); }
+h2 { font-family:'Playfair Display',serif; font-size:1.5rem; margin-top:2rem; margin-bottom:.75rem; color:var(--ink); }
+h3 { font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:.5rem; }
+p  { color:var(--ink-soft); line-height:1.8; margin-bottom:.75rem; }
+li { color:var(--ink-soft); line-height:1.9; }
+
+.back-link {
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--wood-warm); font-size:14px; font-weight:600;
+    transition:color .2s, gap .2s; text-decoration:none;
+}
+.back-link:hover { color:var(--gold); gap:10px; }
+</style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br
-from-[#5D4037] via-[#EFEBE9] to-[#5D4037] p-8">
+<body>
+<div class="page-card fade-up">
 
-<div class="max-w-4xl mx-auto bg-[#FAF7F2]/95 backdrop-blur-sm rounded-3xl p-10 text-[#3E2723] shadow-2xl">
+    <!-- Header -->
+    <div style="animation-delay:.05s" class="fade-up">
+        <p class="text-xs tracking-[.25em] uppercase" style="color:var(--gold);opacity:.7;margin-bottom:.5rem;">
+            Interactive Digital Library
+        </p>
+        <h1>About the Project</h1>
+    </div>
 
-<h1 class="text-4xl font-bold mb-6">About the Project</h1>
+    <div class="ornament-line"></div>
 
+    <!-- Description -->
+    <div style="animation-delay:.1s" class="fade-up">
+        <p>
+            The Interactive Digital Library is a prototype designed to enhance digital reading
+            experiences by integrating AI-generated summaries, visual representations, and
+            optional audio narration.
+        </p>
+    </div>
 
-<!-- PROJECT DESCRIPTION -->
-<p class="text-[#4E342E] leading-relaxed mb-4">
-The Interactive Digital Library is a prototype designed to enhance digital reading
-experiences by integrating AI-generated summaries, visual representations, and
-optional audio narration.
-</p>
+    <!-- Why This Matters -->
+    <div class="section-card fade-up" style="animation-delay:.15s;">
+        <h3>Why This Matters</h3>
+        <p style="font-size:.9rem;margin:0;">
+            Traditional digital reading platforms often provide static text without
+            contextual engagement tools. This platform enhances comprehension and
+            accessibility by combining AI-generated summaries, visual scene
+            interpretations, and optional audio narration to support different
+            learning styles.
+        </p>
+    </div>
 
+    <!-- Copyright Warning -->
+    <div class="section-card-red fade-up" style="animation-delay:.2s;">
+        <h3 style="color:#b91c1c;">⚠ Copyright &amp; Fair Use Notice</h3>
+        <p style="color:#991b1b;font-size:.875rem;margin:0;line-height:1.7;">
+            This project does not host, store, or distribute copyrighted books.
+            All full texts are accessed through external public platforms such as
+            Archive.org. The AI-generated summaries, visuals, and audio content
+            provided here are intended solely as educational pre-reading aids
+            under fair use principles.
+        </p>
+    </div>
 
-<!-- WHY THIS MATTERS -->
-<div class="bg-[#EFE6DC] rounded-xl p-5 mb-8 border border-[#D7CCC8]">
+    <div class="fade-up" style="animation-delay:.25s;">
+        <p>
+            Instead of hosting copyrighted books directly, the platform ethically
+            redirects users to publicly accessible sources while offering
+            AI-powered pre-reading aids to improve comprehension and engagement.
+        </p>
+        <p>
+            This project was developed as part of an academic Design Thinking &amp;
+            Innovation assignment, focusing on accessibility, ethical content use,
+            and user-centered design.
+        </p>
+    </div>
 
-<h2 class="text-xl font-semibold mb-2">
-Why This Matters
-</h2>
+    <div class="ornament-line" style="animation-delay:.28s;"></div>
 
-<p class="text-sm text-[#5D4037] leading-relaxed">
-Traditional digital reading platforms often provide static text without
-contextual engagement tools. This platform enhances comprehension and
-accessibility by combining AI-generated summaries, visual scene
-interpretations, and optional audio narration to support different
-learning styles.
-</p>
+    <!-- Key Features -->
+    <div class="fade-up" style="animation-delay:.3s;">
+        <h2>Key Features</h2>
+        <ul class="list-disc list-inside space-y-2" style="color:var(--ink-soft);">
+            <li>AI-generated text summaries for books</li>
+            <li>Optional audio narration using text-to-speech</li>
+            <li>AI-generated visual scene summaries</li>
+            <li>Searchable and responsive book library</li>
+            <li>Ethical redirection to external reading sources</li>
+        </ul>
+    </div>
 
-</div>
+    <!-- Academic Resources -->
+    <div class="section-card fade-up" style="animation-delay:.35s;margin-top:2rem;">
+        <h3>Academic Resources</h3>
+        <p style="font-size:.9rem;margin:0;">
+            In addition to literature and epics, the platform also includes academic
+            textbooks categorized by engineering departments such as Computer Science,
+            Electronics, and Mechanical Engineering. These resources demonstrate how
+            the system can support educational content alongside traditional reading.
+        </p>
+    </div>
 
+    <!-- Limitations -->
+    <div class="fade-up" style="animation-delay:.4s;">
+        <h2>Limitations of the Current Prototype</h2>
+        <ul class="list-disc list-inside space-y-2">
+            <li>AI-generated visuals are interpretive representations.</li>
+            <li>Summaries may simplify complex themes from the original text.</li>
+            <li>The prototype currently supports a limited dataset of books.</li>
+            <li>AI content is pre-generated rather than dynamically created.</li>
+        </ul>
+    </div>
 
-<!-- COPYRIGHT WARNING -->
-<div class="mt-6 mb-8 p-4 rounded-xl bg-red-500/20 border border-red-500">
+    <!-- Future Scope -->
+    <div class="fade-up" style="animation-delay:.45s;">
+        <h2>Future Scope</h2>
+        <ul class="list-disc list-inside space-y-2">
+            <li>Real-time AI visual generation</li>
+            <li>Integrated in-app reading interface</li>
+            <li>Multi-language summaries and narration</li>
+            <li>Personalized reading recommendations</li>
+            <li>Direct integration with college digital library systems</li>
+        </ul>
+    </div>
 
-<h3 class="text-lg font-semibold text-red-700 mb-2">
-⚠ Copyright & Fair Use Notice
-</h3>
+    <div class="ornament-line fade-up" style="animation-delay:.5s;"></div>
 
-<p class="text-red-800 text-sm leading-relaxed">
-This project does not host, store, or distribute copyrighted books.
-All full texts are accessed through external public platforms such as
-Archive.org. The AI-generated summaries, visuals, and audio content
-provided here are intended solely as educational pre-reading aids
-under fair use principles.
-</p>
-
-</div>
-
-
-<p class="text-[#4E342E] leading-relaxed mb-4">
-Instead of hosting copyrighted books directly, the platform ethically
-redirects users to publicly accessible sources while offering
-AI-powered pre-reading aids to improve comprehension and engagement.
-</p>
-
-<p class="text-[#4E342E] leading-relaxed mb-8">
-This project was developed as part of an academic Design Thinking &
-Innovation assignment, focusing on accessibility, ethical content use,
-and user-centered design.
-</p>
-
-
-<!-- FEATURES -->
-<h2 class="text-2xl font-semibold mb-3">Key Features</h2>
-
-<ul class="list-disc list-inside text-[#4E342E] space-y-2 mb-10">
-
-<li>AI-generated text summaries for books</li>
-<li>Optional audio narration using text-to-speech</li>
-<li>AI-generated visual scene summaries</li>
-<li>Searchable and responsive book library</li>
-<li>Ethical redirection to external reading sources</li>
-
-</ul>
-
-
-<!-- ACADEMIC BOOKS -->
-<div class="bg-[#FAF7F2] text-[#3E2723] rounded-2xl p-6 shadow-lg border border-[#D7CCC8] mb-10">
-
-<h2 class="text-xl font-semibold mb-2">
-Academic Resources
-</h2>
-
-<p class="text-sm text-[#5D4037] leading-relaxed">
-In addition to literature and epics, the platform also includes academic
-textbooks categorized by engineering departments such as Computer Science,
-Electronics, and Mechanical Engineering. These resources demonstrate how
-the system can support educational content alongside traditional reading.
-</p>
-
-</div>
-
-
-<!-- LIMITATIONS -->
-<h2 class="text-2xl font-semibold mb-3">
-Limitations of the Current Prototype
-</h2>
-
-<ul class="list-disc list-inside text-[#4E342E] space-y-2 mb-10">
-
-<li>AI-generated visuals are interpretive representations.</li>
-<li>Summaries may simplify complex themes from the original text.</li>
-<li>The prototype currently supports a limited dataset of books.</li>
-<li>AI content is pre-generated rather than dynamically created.</li>
-
-</ul>
-
-
-<!-- FUTURE SCOPE -->
-<h2 class="text-2xl font-semibold mb-3">
-Future Scope
-</h2>
-
-<ul class="list-disc list-inside text-[#4E342E] space-y-2 mb-10">
-
-<li>Real-time AI visual generation</li>
-<li>Integrated in-app reading interface</li>
-<li>Multi-language summaries and narration</li>
-<li>Personalized reading recommendations</li>
-<li>Direct integration with college digital library systems</li>
-
-</ul>
-
-
-<a href="/" class="inline-block text-[#6D4C41] hover:text-[#3E2723] font-medium">
-← Back to Home
-</a>
+    <a href="/" class="back-link fade-up" style="animation-delay:.55s;">
+        ← Back to Home
+    </a>
 
 </div>
-
 </body>
 </html>

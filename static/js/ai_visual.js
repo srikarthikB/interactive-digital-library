@@ -1,65 +1,150 @@
-const visualCaptions = {
-    "scene1.jpg": "A pivotal moment shaping the course of the story.",
-    "scene2.jpg": "A confrontation that defines key character relationships.",
-    "scene3.jpg": "A moment of moral dilemma and inner conflict."
-};
+/**
+ * ai_visual.js
+ * Handles the "Show AI Visual Interpretation" button on visuals.html.
+ *
+ * Expected DOM (set by visuals.html):
+ *   #showVisualBtn       — the trigger button
+ *   #aiVisualContainer   — wrapper div (display:none initially)
+ *   #aiVisualLoader      — spinner panel inside the container
+ *   #aiVisualWrap        — image + caption wrapper inside the container
+ *   #aiVisualImage       — <img> element
+ *   #aiVisualCaption     — <p> caption element
+ *   #visualSources       — hidden container holding <span data-src="..."> elements
+ *   .visual-card         — grid cards revealed after the first image loads
+ *
+ * Behaviour:
+ *   • First click: show spinner → preload image → fade in single visual → reveal grid
+ *   • Subsequent clicks: cycle to the next image with a smooth crossfade
+ *   • Button label updates to "Next visual →" after the first reveal
+ */
 
-document.addEventListener("DOMContentLoaded", () => {
+(function () {
+    "use strict";
 
-    const generateBtn = document.getElementById("generateVisualBtn");
-    const visualContainer = document.getElementById("aiVisualContainer");
-    const visualImage = document.getElementById("aiVisualImage");
-    const loader = document.getElementById("aiVisualLoader");
-    const captionEl = document.getElementById("aiVisualCaption");
+    // Per-filename captions — extend this object as new visuals are added
+    var CAPTIONS = {
+        "scene1.jpg": "A pivotal moment shaping the course of the story.",
+        "scene2.jpg": "A confrontation that defines key character relationships.",
+        "scene3.jpg": "A moment of moral dilemma and inner conflict."
+    };
 
-    const visualImages = Array.from(
-        document.querySelectorAll("[data-visual-src]")
-    ).map(img => img.dataset.visualSrc);
+    var DEFAULT_CAPTION = "AI-generated visualization of a significant narrative moment.";
 
-    let currentIndex = -1;
-    let hasStarted = false;
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    var btn       = document.getElementById("showVisualBtn");
+    var container = document.getElementById("aiVisualContainer");
+    var loader    = document.getElementById("aiVisualLoader");
+    var wrap      = document.getElementById("aiVisualWrap");
+    var img       = document.getElementById("aiVisualImage");
+    var captionEl = document.getElementById("aiVisualCaption");
+    var grid      = document.querySelector(".visual-card") &&
+                    document.getElementById("visualGrid"); // may be null
 
-    if (!generateBtn || visualImages.length === 0) return;
+    // Collect sources from the hidden list Jinja rendered
+    var sources = Array.from(
+        document.querySelectorAll("#visualSources [data-src]")
+    ).map(function (el) { return el.dataset.src; });
 
-    function showNextVisual() {
+    // Nothing to do if button or images are missing
+    if (!btn || sources.length === 0) return;
 
-        // 🔁 Change button text after first click
-        if (!hasStarted) {
-            generateBtn.textContent = "Next visual →";
-            hasStarted = true;
-        }
+    // ── State ─────────────────────────────────────────────────────────────────
+    var currentIndex = -1;
+    var isLoading    = false;
 
-        visualContainer.classList.remove("hidden");
-        loader?.classList.remove("hidden");
+    // ── Helpers ───────────────────────────────────────────────────────────────
 
-        visualImage.classList.add("hidden", "opacity-0");
-        captionEl?.classList.add("opacity-0");
-
-        setTimeout(() => {
-            currentIndex = (currentIndex + 1) % visualImages.length;
-            const imagePath = visualImages[currentIndex];
-
-            visualImage.src = imagePath;
-
-            // Caption
-            if (captionEl) {
-                const fileName = imagePath.split("/").pop();
-                captionEl.textContent =
-                    visualCaptions[fileName] ||
-                    "AI-generated visualization of a significant narrative moment.";
-            }
-
-            loader?.classList.add("hidden");
-            visualImage.classList.remove("hidden");
-
-            // Force reflow for fade-in
-            visualImage.offsetHeight;
-            visualImage.classList.remove("opacity-0");
-            captionEl?.classList.remove("opacity-0");
-
-        }, 700);
+    function captionFor(src) {
+        var fileName = src.split("/").pop();
+        return CAPTIONS[fileName] || DEFAULT_CAPTION;
     }
 
-    // Single button handles everything
-    generateBtn.addEventListener("click", showNextVisual);
-});
+    /**
+     * Crossfade the current image out, swap src, fade back in.
+     * On the very first call (currentIndex was -1) we skip the fade-out.
+     */
+    function showImage(src, isFirst) {
+        if (captionEl) captionEl.textContent = captionFor(src);
+
+        function revealImg() {
+            img.src = src;
+
+            // Start invisible
+            img.style.opacity   = "0";
+            img.style.transform = "scale(0.97)";
+            img.style.transition = "opacity 0.55s ease, transform 0.55s ease";
+
+            var preload = new Image();
+
+            preload.onload = function () {
+                loader.style.display    = "none";
+                wrap.style.display      = "block";
+
+                // Tiny double-rAF ensures the browser registers the initial
+                // opacity:0 before we animate to opacity:1
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        img.style.opacity   = "1";
+                        img.style.transform = "scale(1)";
+                        isLoading = false;
+
+                        // Reveal the full grid of cards the first time only
+                        if (isFirst && grid) {
+                            grid.style.display = "grid";
+                        }
+                    });
+                });
+            };
+
+            preload.onerror = function () {
+                // Show anyway if preload fails (e.g. dev environment)
+                loader.style.display = "none";
+                wrap.style.display   = "block";
+                img.style.opacity    = "1";
+                img.style.transform  = "scale(1)";
+                isLoading = false;
+                if (isFirst && grid) grid.style.display = "grid";
+            };
+
+            preload.src = src;
+        }
+
+        if (isFirst) {
+            // First reveal: container was hidden — show it with spinner first
+            container.style.display = "block";
+            loader.style.display    = "block";
+            wrap.style.display      = "none";
+            revealImg();
+        } else {
+            // Cycling: crossfade out current image, then swap
+            img.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            img.style.opacity    = "0";
+            img.style.transform  = "scale(0.97)";
+
+            setTimeout(function () {
+                revealImg();
+            }, 320);
+        }
+    }
+
+    // ── Button click handler ──────────────────────────────────────────────────
+
+    btn.addEventListener("click", function () {
+        if (isLoading) return;   // debounce: ignore clicks during transition
+        isLoading = true;
+
+        // Advance index (wraps around)
+        currentIndex = (currentIndex + 1) % sources.length;
+        var isFirst  = (currentIndex === 0 && btn.textContent.trim().startsWith("Show"));
+
+        // Update button label after the first click
+        if (isFirst) {
+            btn.textContent = sources.length > 1
+                ? "Next visual →"
+                : "View visual again";
+        }
+
+        showImage(sources[currentIndex], isFirst);
+    });
+
+}());
